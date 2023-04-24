@@ -5,18 +5,23 @@ from email.header import decode_header
 import os
 import webbrowser
 from helpers import getSecret, Config
+import dateutil.parser
 
 class Email():
     def __init__(self):
+        self.messageId = None
         self.senderName = None
         self.senderEmail = None
         self.subject = None
+        self.date = None
+        self.htmlContent = None
 
     def __str__(self):
         return '''From: {senderName} {senderEmail}
 Subject: {subject}
+Date: {date}
 ====
-'''.format(senderName=self.senderName, senderEmail=self.senderEmail, subject=self.subject)
+'''.format(senderName=self.senderName, senderEmail=self.senderEmail, subject=self.subject, date=self.date)
 
 class SingletonMeta(type):
     _instances = {}
@@ -61,7 +66,7 @@ class Mail(metaclass=SingletonMeta):
                 return message, None
         raise Exception("Could not parse email")
     
-    def convertToEmail(self, rawMessage, messageBody):
+    def convertToEmail(self, messageId, rawMessage, messageBody):
         def getHeader(headerName, index):
             decodedHeader = decode_header(rawMessage.get(headerName))
             # Hacky code, maybe fine alternative
@@ -77,15 +82,17 @@ class Mail(metaclass=SingletonMeta):
             return headerValue
 
         emailObject = Email() 
+        emailObject.messageId = messageId
         emailObject.senderName = getHeader("From", 0)
         emailObject.senderEmail = getHeader("From", 1).replace("<", "").replace(">","")
         emailObject.subject = getHeader("Subject", 0)
+        emailObject.date = dateutil.parser.parse(getHeader("Date", 0))
+        emailObject.htmlContent = messageBody
         return emailObject
 
     def getEmail(self, messageId):
         rawMessage, messageBody = self.getRawMessage(messageId)
-        # self.markCompleted(messageId)
-        return self.convertToEmail(rawMessage, messageBody)
+        return self.convertToEmail(messageId, rawMessage, messageBody)
 
 
     def markCompleted(self, messageId):
@@ -114,56 +121,3 @@ if __name__ == "__main__":
     mail = Mail()
     mail.getEmailsFrom("noreply@phonepe.com")
 
-
-# def obtain_header(msg):
-#     # decode the email subject
-#     subject, encoding = decode_header(msg["Subject"])[0]
-#     if isinstance(subject, bytes):
-#         subject = subject.decode(encoding)
-#  
-#     # decode email sender
-#     From, encoding = decode_header(msg.get("From"))[0]
-#     if isinstance(From, bytes):
-#         From = From.decode(encoding)
-#  
-#     print("Subject:", subject)
-#     print("From:", From)
-#     return subject, From
-# 
-# 
-# # print(imap.list())  # print various inboxes
-# 
-# messageIds = messages[0].split()
-# print(res, msg)
-# for response in msg:
-#         if isinstance(response, tuple):
-#             msg = email.message_from_bytes(response[1])
-#  
-#             subject, From = obtain_header(msg)
-#  
-#             if msg.is_multipart():
-#                 # iterate over email parts
-#                 for part in msg.walk():
-#                     # extract content type of email
-#                     content_type = part.get_content_type()
-#                     content_disposition = str(part.get("Content-Disposition"))
-#  
-#                     try:
-#                         body = part.get_payload(decode=True).decode()
-#                     except:
-#                         pass
-#  
-#                     if content_type == "text/plain" and "attachment" not in content_disposition:
-#                         print(body)
-#                     elif "attachment" in content_disposition:
-#                         download_attachment(part)
-#             else:
-#                 # extract content type of email
-#                 content_type = msg.get_content_type()
-#                 # get the email body
-#                 body = msg.get_payload(decode=True).decode()
-#                 if content_type == "text/plain":
-#                     print(body)
-#  
-#             print("="*100)
-# 
