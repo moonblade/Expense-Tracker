@@ -15,6 +15,7 @@ class Email():
     def __str__(self):
         return '''From: {senderName} {senderEmail}
 Subject: {subject}
+====
 '''.format(senderName=self.senderName, senderEmail=self.senderEmail, subject=self.subject)
 
 class SingletonMeta(type):
@@ -63,15 +64,16 @@ class Mail(metaclass=SingletonMeta):
     def convertToEmail(self, rawMessage, messageBody):
         def getHeader(headerName, index):
             decodedHeader = decode_header(rawMessage.get(headerName))
-            if len(decodedHeader) < index + 1:
-                return ""
+            # Hacky code, maybe fine alternative
+            if headerName == "From" and len(decodedHeader) == 1:
+                encoding = decodedHeader[0][1]
+                decodedHeader = [(part, encoding) for part in decodedHeader[0][0].split(" ")]
             headerValue, encoding = decodedHeader[index]
             if isinstance(headerValue, bytes):
                 if (encoding):
                     headerValue = headerValue.decode(encoding).strip()
                 else:
                     headerValue = headerValue.decode().strip()
-
             return headerValue
 
         emailObject = Email() 
@@ -101,7 +103,11 @@ class Mail(metaclass=SingletonMeta):
         if status != "OK":
             raise Exception("Could not search for messages from", fromEmail)
         messageIds = messageIds[0].split()
-        print(self.getEmail(messageIds[-1]))
+        emails = []
+        for messageId in messageIds:
+            emails.append(self.getEmail(messageId))
+        for email in emails:
+            print(email)
         #res, msg = self.imap.fetch(messageIds[-1], "(RFC822)")
 
 if __name__ == "__main__":
