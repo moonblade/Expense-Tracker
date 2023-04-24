@@ -6,6 +6,15 @@ import os
 import webbrowser
 from helpers import getSecret, Config
 
+class Email():
+    def __init__(self):
+        self.senderName = None
+        self.senderEmail = None
+
+    def __str__(self):
+        return '''From: {0} {1}
+        '''.format(self.senderName, self.senderEmail)
+
 class SingletonMeta(type):
     _instances = {}
     def __call__(cls, *args, **kwargs):
@@ -28,12 +37,57 @@ class Mail(metaclass=SingletonMeta):
         fromDate = datetime.datetime.now() - datetime.timedelta(seconds=deltaSeconds)
         return fromDate.strftime("%d-%b-%Y")
 
+    def getRawMessage(self, messageId):
+        status, data = self.imap.fetch(messageId,'(RFC822)')
+        if status != "OK":
+            raise Exception("Could not fetch message with messageId", messageId)
+
+        for response in data:
+            if isinstance(response, tuple):
+                message = email.message_from_bytes(response[1])
+                if message.is_multipart():
+                    for part in message.walk():
+                        try:
+                            content = part.get_payload(decode=True).decode()
+                            if part.get_content_type() == "text/html":
+                                messageBody = content
+                                return message, messageBody
+                        except:
+                            pass
+                            # print("Could not load multipart content")
+                return message, None
+        raise Exception("Could not parse email")
+    
+    def convertToEmail(self, rawMessage, messageBody):
+        def getHeader(headerName, index):
+            headerValue, encoding = decode_header(rawMessage.get(headerName))[index]
+            if isinstance(headerValue, bytes):
+                if (encoding):
+                    headerValue = headerValue.decode(encoding).strip()
+                else:
+                    headerValue = headerValue.decode().strip()
+
+            return headerValue
+
+        emailObject = Email() 
+        emailObject.senderName = getHeader("From", 0)
+        emailObject.senderEmail = getHeader("From", 1).replace("<", "").replace(">","")
+        return emailObject
+
+    def getEmail(self, messageId):
+        rawMessage, messageBody = self.getRawMessage(messageId)
+        return self.convertToEmail(rawMessage, messageBody)
+
+
+    def markCompleted(self, messageId):
+        typ, data = conn.store(messageId,'-FLAGS','\\Seen')
+
     def getEmailsFrom(self, fromEmail):
         status, messageIds = self.imap.search(None, "FROM", fromEmail, "SINCE",  self.getFromDate())
         if status != "OK":
             raise Exception("Could not search for messages from", fromEmail)
-        messageIds = list(map(int, messageIds[0].split()))
-        print(messageIds)
+        messageIds = messageIds[0].split()
+        print(self.getEmail(messageIds[-1]))
         #res, msg = self.imap.fetch(messageIds[-1], "(RFC822)")
 
 if __name__ == "__main__":
