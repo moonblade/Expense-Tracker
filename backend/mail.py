@@ -10,10 +10,12 @@ class Email():
     def __init__(self):
         self.senderName = None
         self.senderEmail = None
+        self.subject = None
 
     def __str__(self):
-        return '''From: {0} {1}
-        '''.format(self.senderName, self.senderEmail)
+        return '''From: {senderName} {senderEmail}
+Subject: {subject}
+'''.format(senderName=self.senderName, senderEmail=self.senderEmail, subject=self.subject)
 
 class SingletonMeta(type):
     _instances = {}
@@ -60,7 +62,10 @@ class Mail(metaclass=SingletonMeta):
     
     def convertToEmail(self, rawMessage, messageBody):
         def getHeader(headerName, index):
-            headerValue, encoding = decode_header(rawMessage.get(headerName))[index]
+            decodedHeader = decode_header(rawMessage.get(headerName))
+            if len(decodedHeader) < index + 1:
+                return ""
+            headerValue, encoding = decodedHeader[index]
             if isinstance(headerValue, bytes):
                 if (encoding):
                     headerValue = headerValue.decode(encoding).strip()
@@ -72,18 +77,27 @@ class Mail(metaclass=SingletonMeta):
         emailObject = Email() 
         emailObject.senderName = getHeader("From", 0)
         emailObject.senderEmail = getHeader("From", 1).replace("<", "").replace(">","")
+        emailObject.subject = getHeader("Subject", 0)
         return emailObject
 
     def getEmail(self, messageId):
         rawMessage, messageBody = self.getRawMessage(messageId)
+        # self.markCompleted(messageId)
         return self.convertToEmail(rawMessage, messageBody)
 
 
     def markCompleted(self, messageId):
-        typ, data = conn.store(messageId,'-FLAGS','\\Seen')
+        status, data = self.imap.store(messageId,'+FLAGS',self.config.get("emailProcessedFlag"))
+        if status != "OK":
+            raise Exception("Could not set processed flag")
+
+    def markIncomplete(self, messageId):
+        status, data = self.imap.store(messageId,'-FLAGS',self.config.get("emailProcessedFlag"))
+        if status != "OK":
+            raise Exception("Could not unset processed flag")
 
     def getEmailsFrom(self, fromEmail):
-        status, messageIds = self.imap.search(None, "FROM", fromEmail, "SINCE",  self.getFromDate())
+        status, messageIds = self.imap.search(None, "FROM", fromEmail, "SINCE",  self.getFromDate(), "UNKEYWORD", self.config.get("emailProcessedFlag"))
         if status != "OK":
             raise Exception("Could not search for messages from", fromEmail)
         messageIds = messageIds[0].split()

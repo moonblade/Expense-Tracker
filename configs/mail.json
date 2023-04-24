@@ -1,3 +1,4 @@
 {
-  "emailHistoryTimeSeconds": 86400
+  "emailHistoryTimeSeconds": 86400,
+  "emailProcessedFlag": "emailexpenseprocessed"
 }
