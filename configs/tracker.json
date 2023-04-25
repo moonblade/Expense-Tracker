@@ -1,0 +1,25 @@
+{
+  "templates": [
+    {
+      "sender": "noreply@phonepe.com",
+      "senderTemplates": [
+        {
+          "subjectRegex": "Sent ₹(.*) to (.*)",
+          "groups": ["amount", "payee"]
+        },{
+          "subjectRegex": "Payment for (.*) of ₹(.*) is successful",
+          "groups": ["payee", "amount"]
+        }
+      ]
+    }, {
+      "sender": "credit_cards@icicibank.com",
+      "senderTemplates": [
+        {
+          "subjectRegex": "(.*)",
+          "groups": ["subject"]
+        }
+      ]
+    }
+  ]
+
+}

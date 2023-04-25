@@ -73,6 +73,8 @@ class Mail(metaclass=SingletonMeta):
             if headerName == "From" and len(decodedHeader) == 1:
                 encoding = decodedHeader[0][1]
                 decodedHeader = [(part, encoding) for part in decodedHeader[0][0].split(" ")]
+                if len(decodedHeader) == 1:
+                    decodedHeader = [decodedHeader[0], decodedHeader[0]]
             headerValue, encoding = decodedHeader[index]
             if isinstance(headerValue, bytes):
                 if (encoding):
@@ -113,9 +115,7 @@ class Mail(metaclass=SingletonMeta):
         emails = []
         for messageId in messageIds:
             emails.append(self.getEmail(messageId))
-        for email in emails:
-            print(email)
-        #res, msg = self.imap.fetch(messageIds[-1], "(RFC822)")
+        return emails
 
 if __name__ == "__main__":
     mail = Mail()
