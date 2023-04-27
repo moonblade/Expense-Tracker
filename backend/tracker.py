@@ -1,6 +1,7 @@
 from helpers import getSecret, Config
 from mail import Mail
 import re
+from bs4 import BeautifulSoup
 
 class Tracker():
     def __init__(self):
@@ -10,7 +11,7 @@ class Tracker():
         self.execute()
 
     def execute(self):
-        for template in self.templates:
+        for template in self.templates[::-1]:
             sender = template["sender"]
             emails = self.mail.getEmailsFrom(sender)
             for email in emails:
@@ -20,9 +21,21 @@ class Tracker():
                         matchGroups = match.groups()
                         content = {}
                         if len(matchGroups) == len(senderTemplate["groups"]):
-                            content = dict([(senderTemplate["groups"][index], matchGroups[index].strip()) for index in range(len(matchGroups))])
+                            content = dict([(senderTemplate["groups"][index], matchGroups[index].strip().lower()) for index in range(len(matchGroups))])
                             content["date"] = email.date
-                            print(content)
+                            soup = BeautifulSoup(email.htmlContent, features="lxml")
+                        if "contentTemplates" in senderTemplate:
+                            for contentTemplate in senderTemplate["contentTemplates"]:
+                                if contentTemplate["type"] == "findByText":
+                                    element = soup.find(lambda tag:tag.name == contentTemplate["tagName"] and tag.text.strip() == contentTemplate["text"])
+                                    if "findNext" in contentTemplate:
+                                        for nextTag in contentTemplate["findNext"]:
+                                            element = element.findNext(nextTag)
+                                    content[contentTemplate["key"]] = element.text.strip()
+
+                        print(content)
+                        if "payee" in content:
+                            print("="*20)
 
 
 
