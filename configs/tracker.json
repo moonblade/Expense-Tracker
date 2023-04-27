@@ -5,7 +5,14 @@
       "senderTemplates": [
         {
           "subjectRegex": "Sent ₹(.*) to (.*)",
-          "groups": ["amount", "payee"]
+          "groups": ["amount", "payee"],
+          "contentTemplates": [{
+            "key": "transactionId",
+            "type": "findByText",
+            "tagName": "td",
+            "findNext": ["td", "td"],
+            "text": "Txn. ID"
+          }]
         },{
           "subjectRegex": "Payment for (.*) of ₹(.*) is successful",
           "groups": ["payee", "amount"]
