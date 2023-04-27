@@ -15,7 +15,14 @@
           }]
         },{
           "subjectRegex": "Payment for (.*) of ₹(.*) is successful",
-          "groups": ["payee", "amount"]
+          "groups": ["payee", "amount"],
+          "contentTemplates": [{
+            "key": "transactionId",
+            "type": "findByText",
+            "tagName": "td",
+            "findNext": ["td", "td"],
+            "text": "Txn. ID"
+          }]
         }
       ]
     }, {
