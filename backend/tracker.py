@@ -27,9 +27,17 @@ class Tracker():
                             if len(matchGroups) == len(senderTemplate["groups"]):
                                 content = dict([(senderTemplate["groups"][index], matchGroups[index].strip().lower()) for index in range(len(matchGroups))])
                                 content["date"] = email.date
-                                soup = BeautifulSoup(email.htmlContent, features="lxml")
+                            soup = BeautifulSoup(email.htmlContent, features="lxml")
                             if "contentTemplates" in senderTemplate:
                                 for contentTemplate in senderTemplate["contentTemplates"]:
+                                    if contentTemplate["type"] == "regexInText":
+                                        textContent = soup.getText()
+                                        match = re.search(contentTemplate["regex"], textContent)
+                                        matchGroups = match.groups()
+                                        if match:
+                                            if len(matchGroups) == len(contentTemplate["groups"]):
+                                                content.update(dict([(contentTemplate["groups"][index], matchGroups[index].strip().lower()) for index in range(len(matchGroups))]))
+
                                     if contentTemplate["type"] == "findByText":
                                         element = None
                                         if "text" in contentTemplate:
