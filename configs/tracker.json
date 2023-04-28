@@ -84,7 +84,12 @@
       "senderTemplates": [
         {
           "subjectRegex": "(.*)",
-          "groups": ["subject"]
+          "groups": ["subject"],
+          "contentTemplates": [{
+            "type": "regexInText",
+            "regex": ".* has been used for a transaction of INR (.*) on (.*). Info: (.*). .*",
+            "groups": ["amount", "_date", "payee"]
+          }]
         }
       ]
     }
