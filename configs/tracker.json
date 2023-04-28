@@ -19,7 +19,7 @@
             "findNext": ["td", "td"],
             "text": "Txn. Status"
           }, {
-            "key": "debitedfrom",
+            "key": "account",
             "type": "findByText",
             "tagName": "td",
             "findNext": ["td", "td"],
@@ -46,6 +46,36 @@
             "tagName": "td",
             "findNext": ["td", "td"],
             "text": "Txn. ID"
+          }, {
+            "key": "bankRefNo",
+            "type": "findByText",
+            "tagName": "td",
+            "findNext": ["td", "td"],
+            "text": "Bank Ref. No."
+          }, {
+            "key": "account",
+            "type": "findByText",
+            "tagName": "span",
+            "findNext": ["span", "span"],
+            "text": "Account"
+          }, {
+            "key": "transactionStatus",
+            "type": "findByText",
+            "tagName": "td",
+            "findNext": ["td", "td"],
+            "text": "Txn. Status"
+          },{
+            "key": "paymentFor",
+            "type": "findByText",
+            "tagName": "span",
+            "findNext": ["span"],
+            "text": "Payment For"
+          },{
+            "key": "category",
+            "type": "findByText",
+            "tagName": "td",
+            "findNext": ["td", "td"],
+            "text": "Category"
           }]
         }
       ]
