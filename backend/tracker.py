@@ -11,7 +11,7 @@ class Tracker():
         self.execute()
 
     def clean(self, elementText):
-        return re.sub('\s+',' ',elementText)
+        return re.sub('\s+',' ',elementText).lower()
 
     def execute(self):
         for template in self.templates[::-1]:
