@@ -8,12 +8,12 @@ class Tracker():
         self.config = Config("tracker")
         self.templates = self.config.get("templates")
         self.mail = Mail()
-        self.execute()
 
     def clean(self, elementText):
         return re.sub('\s+',' ',elementText).lower()
 
-    def execute(self):
+    def extractData(self):
+        data = []
         for template in self.templates[::-1]:
             sender = template["sender"]
             emails = self.mail.getEmailsFrom(sender)
@@ -50,12 +50,14 @@ class Tracker():
                                                     pass
                                         if element:
                                             content[contentTemplate["key"]] = self.clean(element.text.strip())
-                            print(content)
-                            print("="*20)
+                            if content:
+                                data.append(content)
                     except Exception as e:
                         print(str(e))
+        return data
 
 
 
 if __name__ == "__main__":
     tracker = Tracker()
+    print(tracker.extractData())
