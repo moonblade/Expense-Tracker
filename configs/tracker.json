@@ -19,11 +19,23 @@
             "findNext": ["td", "td"],
             "text": "Txn. Status"
           }, {
-            "key": "debitedFrom",
+            "key": "debitedfrom",
             "type": "findByText",
             "tagName": "td",
             "findNext": ["td", "td"],
-            "text": "Debited From"
+            "text": "debited from"
+          }, {
+            "key": "bankRefNo",
+            "type": "findByText",
+            "tagName": "td",
+            "findNext": ["td", "td"],
+            "text": "Bank Ref. No."
+          }, {
+            "key": "message",
+            "type": "findByText",
+            "tagName": "td",
+            "findNext": ["td", "td"],
+            "text": "Message"
           }]
         },{
           "subjectRegex": "Payment for (.*) of ₹(.*) is successful",

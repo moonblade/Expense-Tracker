@@ -31,15 +31,21 @@ class Tracker():
                             if "contentTemplates" in senderTemplate:
                                 for contentTemplate in senderTemplate["contentTemplates"]:
                                     if contentTemplate["type"] == "findByText":
-                                        element = soup.find(lambda tag:tag.name == contentTemplate["tagName"] and tag.text.strip().lower() == contentTemplate["text"].lower())
+                                        element = None
+                                        if "text" in contentTemplate:
+                                            element = soup.find(lambda tag:tag.name == contentTemplate["tagName"] and tag.text.strip().lower() == contentTemplate["text"].lower())
                                         if "findNext" in contentTemplate:
                                             for nextTag in contentTemplate["findNext"]:
-                                                element = element.findNext(nextTag)
-                                        content[contentTemplate["key"]] = self.clean(element.text.strip())
-                        print(content)
-                        print("="*20)
+                                                try:
+                                                    element = element.findNext(nextTag)
+                                                except Exception as noElement:
+                                                    pass
+                                        if element:
+                                            content[contentTemplate["key"]] = self.clean(element.text.strip())
+                            print(content)
+                            print("="*20)
                     except Exception as e:
-                        print(e)
+                        print(str(e))
 
 
 
