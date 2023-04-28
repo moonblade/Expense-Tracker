@@ -10,6 +10,9 @@ class Tracker():
         self.mail = Mail()
         self.execute()
 
+    def clean(self, elementText):
+        return re.sub('\s+',' ',elementText)
+
     def execute(self):
         for template in self.templates[::-1]:
             sender = template["sender"]
@@ -31,9 +34,8 @@ class Tracker():
                                         element = soup.find(lambda tag:tag.name == contentTemplate["tagName"] and tag.text.strip().lower() == contentTemplate["text"].lower())
                                         if "findNext" in contentTemplate:
                                             for nextTag in contentTemplate["findNext"]:
-                                                print(element)
                                                 element = element.findNext(nextTag)
-                                        content[contentTemplate["key"]] = element.text.strip()
+                                        content[contentTemplate["key"]] = self.clean(element.text.strip())
                         print(content)
                         print("="*20)
                     except Exception as e:
