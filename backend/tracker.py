@@ -12,6 +12,10 @@ class Tracker():
     def clean(self, elementText):
         return re.sub('\s+',' ',elementText).lower()
 
+    def sanitiseContent(self, key, data):
+        return data
+        pass
+
     def extractData(self):
         data = []
         for template in self.templates[::-1]:
@@ -60,4 +64,5 @@ class Tracker():
 
 if __name__ == "__main__":
     tracker = Tracker()
-    print(tracker.extractData())
+    for content in tracker.extractData():
+        print(content)
