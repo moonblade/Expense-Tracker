@@ -2,10 +2,16 @@ import os
 import json
 
 class Config():
-    def __init__(self, configFileName):
-        configFilePath = os.path.join(getScriptDir(), "..", "configs", configFileName + ".json")
+    def __init__(self, configFileName, isSecret = False):
+        if isSecret:
+            configFilePath = os.path.join(getScriptDir(), "..", "secrets", configFileName + ".json")
+        else:
+            configFilePath = os.path.join(getScriptDir(), "..", "configs", configFileName + ".json")
         with open(configFilePath) as configFile:
             self.config = json.load(configFile)
+
+    def getRoot(self):
+        return self.config
 
     def get(self, configParam):
         return self.config[configParam]
