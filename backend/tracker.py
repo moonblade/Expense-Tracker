@@ -6,15 +6,23 @@ from bs4 import BeautifulSoup
 class Tracker():
     def __init__(self):
         self.config = Config("tracker")
+        self.sanitizeConfig = Config("sanitize", True).getRoot()
         self.templates = self.config.get("templates")
         self.mail = Mail()
 
     def clean(self, elementText):
         return re.sub('\s+',' ',elementText).lower()
 
-    def sanitiseContent(self, key, data):
-        return data
-        pass
+    def sanitizeContent(self, content):
+        def sanitizeItem(data, sanitizeTemplate):
+            if sanitizeTemplate["type"] == "remove" and "text" in sanitizeTemplate:
+                data = data.replace(sanitizeTemplate["text"],"")
+            return data
+        for key in content:
+            for sanitizeTemplate in self.sanitizeConfig:
+                if key == sanitizeTemplate["key"]:
+                    content[key] = sanitizeItem(content[key], sanitizeTemplate)
+        return content
 
     def extractData(self):
         data = []
@@ -55,7 +63,7 @@ class Tracker():
                                         if element:
                                             content[contentTemplate["key"]] = self.clean(element.text.strip())
                             if content:
-                                data.append(content)
+                                data.append(self.sanitizeContent(content))
                     except Exception as e:
                         print(str(e))
         return data
@@ -66,3 +74,4 @@ if __name__ == "__main__":
     tracker = Tracker()
     for content in tracker.extractData():
         print(content)
+        # print(content["amount"])
