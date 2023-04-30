@@ -8,11 +8,26 @@ class Tracker():
     def __init__(self):
         self.config = Config("tracker")
         self.sanitizeConfig = Config("sanitize", True).getRoot()
+        self.categoryConfig = Config("category", True).getRoot()
         self.templates = self.config.get("templates")
         self.mail = Mail()
 
-    def clean(self, elementText):
-        return re.sub('\s+',' ',elementText).lower()
+    def clean(self, text):
+        return re.sub('\s+',' ',text).lower()
+
+    def addCategories(self, content):
+        def addCategory(data, categoryTemplate, content):
+            if categoryTemplate["type"] == "contains":
+                if "text" in categoryTemplate:
+                    if categoryTemplate["text"] in data:
+                        content["category"] = categoryTemplate["category"]
+
+        newContent = content.copy()
+        for key in content:
+            for categoryTemplate in self.categoryConfig:
+                if key == categoryTemplate["key"]:
+                    addCategory(content[key], categoryTemplate, newContent)
+        return newContent
 
     def sanitizeContent(self, content):
         def sanitizeItem(data, sanitizeTemplate):
@@ -23,13 +38,16 @@ class Tracker():
                 if "hasAllIn" in sanitizeTemplate and False not in [True if text in data else False for text in sanitizeTemplate["hasAllIn"]]:
                     data = sanitizeTemplate["replaceWith"]
             return data
+
         for key in content:
+            if isinstance(content[key], str):
+                content[key] = self.clean(content[key])
             for sanitizeTemplate in self.sanitizeConfig:
                 if key == sanitizeTemplate["key"]:
                     content[key] = sanitizeItem(content[key], sanitizeTemplate)
         return content
 
-    def extractData(self):
+    def getData(self):
         data = []
         for template in self.templates[::-1]:
             sender = template["sender"]
@@ -68,16 +86,16 @@ class Tracker():
                                         if element:
                                             content[contentTemplate["key"]] = self.clean(element.text.strip())
                             if content:
-                                data.append(self.sanitizeContent(content))
+                                data.append(self.addCategories(self.sanitizeContent(content)))
                     except Exception as e:
+                        raise e
                         print(str(e))
         return data
 
 
-
 if __name__ == "__main__":
     tracker = Tracker()
-    for content in tracker.extractData():
+    for content in tracker.getData():
         pprint.pprint(content)
         print("="*20)
         # print(content["amount"])
