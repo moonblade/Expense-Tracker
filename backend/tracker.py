@@ -3,6 +3,31 @@ from mail import Mail
 import re
 from bs4 import BeautifulSoup
 import pprint
+from datetime import datetime
+
+class Expense(dict):
+    def __init__(self, expense):
+        for row in {
+                "account": "unknown", 
+                "amount": 0,
+                "payee": "unknown",
+                "bankRefNo": "unknown",
+                "category": "unknown",
+                "message": "",
+                "date": datetime.now(),
+                "transactionId": "",
+                "transactionStatus": "",
+                "subject": ""
+            }.items():
+            key = row[0]
+            value = row[1]
+            self.__dict__[key] = value
+            if key in expense:
+                self.__dict__[key] = expense[key]
+            self.fullDict = expense
+
+    def __str__(self):
+        return str(self.account) + ": " + str(self.amount) + " for " + str(self.category) + " on " + self.date.strftime("%x %X")
 
 class Tracker():
     def __init__(self):
@@ -48,6 +73,7 @@ class Tracker():
         return content
 
     def getData(self):
+        expenseList = []
         data = []
         for template in self.templates[::-1]:
             sender = template["sender"]
@@ -68,10 +94,13 @@ class Tracker():
                                     if contentTemplate["type"] == "regexInText":
                                         textContent = soup.getText()
                                         match = re.search(contentTemplate["regex"], textContent)
-                                        matchGroups = match.groups()
                                         if match:
+                                            matchGroups = match.groups()
                                             if len(matchGroups) == len(contentTemplate["groups"]):
                                                 content.update(dict([(contentTemplate["groups"][index], matchGroups[index].strip().lower()) for index in range(len(matchGroups))]))
+                                        else:
+                                            print(contentTemplate["regex"])
+                                            print(textContent)
 
                                     if contentTemplate["type"] == "findByText":
                                         element = None
@@ -90,12 +119,20 @@ class Tracker():
                     except Exception as e:
                         raise e
                         print(str(e))
-        return data
+        for content in data:
+            expense = Expense(content)
+            expenseList.append(expense)
+        return expenseList
 
 
 if __name__ == "__main__":
     tracker = Tracker()
-    for content in tracker.getData():
-        pprint.pprint(content)
+    #e = Expense(tracker.getData()[-1])
+    #for key in dir(e):
+    #    names = [p for p in dir(e) if not p.startswith('_')]
+    #    attrs = [getattr(e, p) for p in dir(e) if not p.startswith('_')]
+    #    print(names, attrs)
+    for expense in tracker.getData():
+        print(expense)
         print("="*20)
         # print(content["amount"])

@@ -63,6 +63,10 @@ class Mail(metaclass=SingletonMeta):
                         except:
                             pass
                             # print("Could not load multipart content")
+                else:
+                    if message.get_content_type() == "text/html":
+                        messageBody = message.get_payload(decode=True).decode() 
+                        return message, messageBody
                 return message, None
         raise Exception("Could not parse email")
     
@@ -119,5 +123,7 @@ class Mail(metaclass=SingletonMeta):
 
 if __name__ == "__main__":
     mail = Mail()
-    mail.getEmailsFrom("noreply@phonepe.com")
+    for m in mail.getEmailsFrom("customercare@icicibank.com"):
+        print(m)
+
 

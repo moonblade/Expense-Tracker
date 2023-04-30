@@ -92,6 +92,17 @@
           }]
         }
       ]
+    }, {
+      "sender": "customercare@icicibank.com",
+      "senderTemplates": [{
+        "subjectRegex":  "Transaction alert for your ICICI Bank Internet Banking",
+        "groups": [],
+        "contentTemplates": [{
+          "type": "regexInText",
+          "regex": "You have made an online payment of INR (.*) towards (.*) from your Account (.*) on (.*). The Transaction ID is (.*).",
+          "groups": ["amount", "payee", "account", "_date", "transactionId"]
+        }]
+      }]
     }
   ]
 
