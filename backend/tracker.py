@@ -2,6 +2,7 @@ from helpers import getSecret, Config
 from mail import Mail
 import re
 from bs4 import BeautifulSoup
+import pprint
 
 class Tracker():
     def __init__(self):
@@ -15,8 +16,12 @@ class Tracker():
 
     def sanitizeContent(self, content):
         def sanitizeItem(data, sanitizeTemplate):
-            if sanitizeTemplate["type"] == "remove" and "text" in sanitizeTemplate:
-                data = data.replace(sanitizeTemplate["text"],"")
+            if sanitizeTemplate["type"] == "remove":
+                if "text" in sanitizeTemplate:
+                    data = data.replace(sanitizeTemplate["text"],"")
+            if sanitizeTemplate["type"] == "fullReplace":
+                if "hasAllIn" in sanitizeTemplate and False not in [True if text in data else False for text in sanitizeTemplate["hasAllIn"]]:
+                    data = sanitizeTemplate["replaceWith"]
             return data
         for key in content:
             for sanitizeTemplate in self.sanitizeConfig:
@@ -73,5 +78,6 @@ class Tracker():
 if __name__ == "__main__":
     tracker = Tracker()
     for content in tracker.extractData():
-        print(content)
+        pprint.pprint(content)
+        print("="*20)
         # print(content["amount"])
