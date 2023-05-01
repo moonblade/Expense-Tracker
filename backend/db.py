@@ -1,5 +1,5 @@
 import sqlite3
-
+from expense import Expense
 
 class DB():
     def __init__(self):
@@ -7,11 +7,12 @@ class DB():
         self.initializeTables()
 
     def insertExpense(self, expense):
-        insertQuery = '''INSERT INTO expense (amount, category, account, payee, date, message, bankRefNo, transactionId, transactionStatus, raw_dict)
-            values({amount}
-        '''.format(expense["amount"], expense["category"], expense["account"], expense["payee"], expense["date"], expense[
-
-        pass
+        insertQuery = '''INSERT INTO expense (:amount, :category, :account, :payee, :date, :message, :bankRefNo, :transactionId, :transactionStatus, :raw_dict)
+            values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        '''
+        self.con.cursor().execute(insertQuery, expense)
+        self.con.commit()
+        print(self.con.cursor().rowCount)
 
     def initializeTables(self):
         tableCreationQueries = [
@@ -37,6 +38,7 @@ class DB():
 
 if __name__ == "__main__":
     db = DB()
+    db.con.execute("Alter table expense add transactionStatus VARCHAR(255)")
 
 
 
