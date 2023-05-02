@@ -1,12 +1,16 @@
 from tracker import Tracker
-from db import DB
+from expenseModel import Expense
+from peewee import *
 
-tracker = Tracker()
-db = DB()
+def initDb():
+    db = SqliteDatabase("data/data.sqlite")
+    db.connect()
+    db.create_tables([Expense])
 
-
-data = tracker.getData()
-db.insertExpense(data[-1])
-
-db.close()
+if __name__ == "__main__":
+    initDb()
+    tracker = Tracker()
+    data = tracker.getData()
+    for content in data:
+        print(content)
 

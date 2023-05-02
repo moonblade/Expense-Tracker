@@ -4,7 +4,7 @@ import re
 from bs4 import BeautifulSoup
 import pprint
 from datetime import datetime
-from expense import Expense
+from expenseModel import Expense
 
 class Tracker():
     def __init__(self):
@@ -46,7 +46,10 @@ class Tracker():
                 content[key] = self.clean(content[key])
             for sanitizeTemplate in self.sanitizeConfig:
                 if key == sanitizeTemplate["key"]:
-                    content[key] = sanitizeItem(content[key], sanitizeTemplate)
+                    if sanitizeTemplate["type"] == "removeKey":
+                        del content[key]
+                    else:
+                        content[key] = sanitizeItem(content[key], sanitizeTemplate)
         return content
 
     def getData(self):
@@ -92,13 +95,14 @@ class Tracker():
                                         if element:
                                             content[contentTemplate["key"]] = self.clean(element.text.strip())
                             if content:
-                                data.append(self.addCategories(self.sanitizeContent(content)))
+                                content = self.sanitizeContent(content)
+                                content = self.addCategories(content)
+                                rawDict = str(content)
+                                content["rawDict"] = rawDict
+                                data.append(content)
                     except Exception as e:
-                        raise e
                         print(str(e))
-        for content in data:
-            expense = Expense(content)
-            expenseList.append(expense)
+        Expense.insert_many(data).execute()
         return expenseList
 
 
