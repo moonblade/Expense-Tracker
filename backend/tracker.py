@@ -4,7 +4,6 @@ import re
 from bs4 import BeautifulSoup
 import pprint
 from datetime import datetime
-from expenseModel import Expense
 
 class Tracker():
     def __init__(self):
@@ -32,6 +31,7 @@ class Tracker():
         return newContent
 
     def sanitizeContent(self, content):
+        returnContent = content.copy()
         def sanitizeItem(data, sanitizeTemplate):
             if sanitizeTemplate["type"] == "remove":
                 if "text" in sanitizeTemplate:
@@ -47,10 +47,10 @@ class Tracker():
             for sanitizeTemplate in self.sanitizeConfig:
                 if key == sanitizeTemplate["key"]:
                     if sanitizeTemplate["type"] == "removeKey":
-                        del content[key]
+                        del returnContent[key]
                     else:
-                        content[key] = sanitizeItem(content[key], sanitizeTemplate)
-        return content
+                        returnContent[key] = sanitizeItem(content[key], sanitizeTemplate)
+        return returnContent
 
     def getData(self):
         expenseList = []
@@ -65,9 +65,6 @@ class Tracker():
                         if match:
                             matchGroups = match.groups()
                             content = {}
-                            if len(matchGroups) == len(senderTemplate["groups"]):
-                                content = dict([(senderTemplate["groups"][index], matchGroups[index].strip().lower()) for index in range(len(matchGroups))])
-                                content["date"] = email.date
                             soup = BeautifulSoup(email.htmlContent, features="lxml")
                             if "contentTemplates" in senderTemplate:
                                 for contentTemplate in senderTemplate["contentTemplates"]:
@@ -78,9 +75,9 @@ class Tracker():
                                             matchGroups = match.groups()
                                             if len(matchGroups) == len(contentTemplate["groups"]):
                                                 content.update(dict([(contentTemplate["groups"][index], matchGroups[index].strip().lower()) for index in range(len(matchGroups))]))
-                                        else:
-                                            print(contentTemplate["regex"])
-                                            print(textContent)
+                                        #else:
+                                        #    print(contentTemplate["regex"])
+                                        #    print(textContent)
 
                                     if contentTemplate["type"] == "findByText":
                                         element = None
@@ -95,15 +92,18 @@ class Tracker():
                                         if element:
                                             content[contentTemplate["key"]] = self.clean(element.text.strip())
                             if content:
+                                if len(matchGroups) == len(senderTemplate["groups"]):
+                                    content.update(dict([(senderTemplate["groups"][index], matchGroups[index].strip().lower()) for index in range(len(matchGroups))]))
+                                    content["date"] = email.date
                                 content = self.sanitizeContent(content)
                                 content = self.addCategories(content)
                                 rawDict = str(content)
                                 content["rawDict"] = rawDict
                                 data.append(content)
                     except Exception as e:
+                        #raise e
                         print(str(e))
-        Expense.insert_many(data).execute()
-        return expenseList
+        return data
 
 
 if __name__ == "__main__":

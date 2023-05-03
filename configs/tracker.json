@@ -83,12 +83,13 @@
       "sender": "credit_cards@icicibank.com",
       "senderTemplates": [
         {
-          "subjectRegex": "(.*)",
-          "groups": ["subject"],
+          "subjectRegex": "Transaction alert for your ICICI Bank Credit Card",
+          "groups": [],
           "contentTemplates": [{
             "type": "regexInText",
             "regex": "Your (.*) has been used for a transaction of INR (.*) on (.*). Info: (.*). .*",
-            "groups": ["account", "amount", "_date", "payee"]
+            "comment": "Keep date as transactionId",
+            "groups": ["account", "amount", "transactionId", "payee"]
           }]
         }
       ]
