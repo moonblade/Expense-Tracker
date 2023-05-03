@@ -11,6 +11,8 @@ if __name__ == "__main__":
     initDb()
     tracker = Tracker()
     data = tracker.getData()
+    Expense.insert_many(data).execute()
     for content in data:
-        print(content)
+    #    print(content)
+        print(content["transactionId"])
 
