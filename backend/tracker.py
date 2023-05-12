@@ -97,8 +97,6 @@ class Tracker():
                                     content["date"] = email.date
                                 content = self.sanitizeContent(content)
                                 content = self.addCategories(content)
-                                rawDict = str(content)
-                                content["rawDict"] = rawDict
                                 data.append(content)
                     except Exception as e:
                         #raise e
