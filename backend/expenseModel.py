@@ -1,22 +1,15 @@
-from peewee import *
+from mongoengine import *
 from datetime import datetime
 
-db = SqliteDatabase("data/data.sqlite")
-
-class Expense(Model):
-    expenseId = AutoField()
-    account = CharField(default='unknown')
+class Expense(DynamicDocument):
+    account = StringField(default='unknown')
     amount = FloatField(default=0)
-    payee = CharField(default='unknown')
-    bankRefNo = CharField(default='unknown')
-    category = CharField(default='unknown')
-    message = TextField(default='unknown')
+    payee = StringField(default='unknown')
+    bankRefNo = StringField(default='unknown')
+    category = StringField(default='unknown')
+    message = StringField(default='unknown')
     date = DateTimeField(default=datetime.now)
-    transactionId = CharField(default='')
-    transactionStatus = CharField(default='')
-    subject = CharField(default='')
-    rawDict = TextField(default='{}')
-
-    class Meta:
-        database = db
+    transactionId = StringField(unique=True, default='')
+    transactionStatus = StringField(default='')
+    subject = StringField(default='')
 

@@ -1,18 +1,23 @@
 from tracker import Tracker
+from mongoengine import connect
 from expenseModel import Expense
-from peewee import *
+
 
 def initDb():
-    db = SqliteDatabase("data/data.sqlite")
-    db.connect()
-    db.create_tables([Expense])
+    connect('expenseTracker', host='localhost', port=27017)
 
 if __name__ == "__main__":
     initDb()
     tracker = Tracker()
     data = tracker.getData()
-    Expense.insert_many(data).execute()
     for content in data:
-    #    print(content)
-        print(content["transactionId"])
+        expense = Expense(**content)
+        try:
+            print(expense.transactionId)
+            expense.save()
+        except Exception as e:
+            #print(str(e))
+            pass
+        # print(content)
+        # print(content["transactionId"])
 
