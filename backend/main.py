@@ -13,11 +13,9 @@ if __name__ == "__main__":
     for content in data:
         expense = Expense(**content)
         try:
-            print(expense.transactionId)
+            #print(expense.category, expense.payee, expense.message)
             expense.save()
         except Exception as e:
             #print(str(e))
             pass
-        # print(content)
-        # print(content["transactionId"])
 

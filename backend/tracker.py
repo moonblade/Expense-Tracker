@@ -43,7 +43,7 @@ class Tracker():
 
         for key in content:
             if isinstance(content[key], str):
-                content[key] = self.clean(content[key])
+                returnContent[key] = self.clean(content[key])
             for sanitizeTemplate in self.sanitizeConfig:
                 if key == sanitizeTemplate["key"]:
                     if sanitizeTemplate["type"] == "removeKey":
