@@ -128,7 +128,7 @@
         "contentTemplates": [{
           "type": "regexInText",
           "regex": "You sent ₹(.*) to (.*). You can find the details below:",
-          "groups": ["amount", "payee"]
+          "groups": ["_date", "_date"]
         }, {
           "type": "static",
           "key": "account",

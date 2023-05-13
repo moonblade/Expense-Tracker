@@ -13,9 +13,14 @@ if __name__ == "__main__":
     for content in data:
         expense = Expense(**content)
         try:
-            #print(expense.category, expense.payee, expense.message)
             expense.save()
         except Exception as e:
-            #print(str(e))
-            pass
-
+            try:
+                existingExpense = Expense.objects(transactionId=content["transactionId"])
+                if len(existingExpense) > 0:
+                    existingExpense = existingExpense[0]
+                    if existingExpense.lastUpdatedBy == "autoPython":
+                        existingExpense.update(**content)
+            except Exception as e:
+                print(str(e))
+                pass

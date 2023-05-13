@@ -12,4 +12,6 @@ class Expense(DynamicDocument):
     transactionId = StringField(unique=True, default='')
     transactionStatus = StringField(default='')
     subject = StringField(default='')
+    lastUpdated = DateTimeField(default=datetime.now)
+    lastUpdatedBy = StringField(default='autoPython')
 
