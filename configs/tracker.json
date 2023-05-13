@@ -104,6 +104,22 @@
           "groups": ["amount", "payee", "account", "_date", "transactionId"]
         }]
       }]
+    }, {
+      "sender": "no-reply@paytmbank.com",
+      "senderTemplates": [{
+        "subjectRegex": "You paid Rs. (.*) to (.*)",
+        "groups": ["amount", "payee"],
+        "contentTemplates": [{
+          "type": "findByText",
+          "key": "transactionId",
+          "tagName": "td",
+          "text": "Transaction Id:"
+        }, {
+          "type": "static",
+          "key": "account",
+          "text": "paytm"
+        }]
+      }]
     }
   ]
 
