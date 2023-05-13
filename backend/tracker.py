@@ -53,6 +53,8 @@ class Tracker():
                         returnContent[key] = sanitizeItem(returnContent[key], sanitizeTemplate)
         if "transactionId" not in returnContent:
             returnContent["transactionId"] = str(returnContent["date"])
+        returnContent["lastUpdated"] = datetime.now
+        returnContent["lastUpdatedBy"] = "autoPython"
         return returnContent
 
     def matchTag(self, tag, contentTemplate):
@@ -83,9 +85,9 @@ class Tracker():
                                         textContent = soup.getText()
                                         match = re.search(contentTemplate["regex"], textContent)
                                         if match:
-                                            matchGroups = match.groups()
-                                            if len(matchGroups) == len(contentTemplate["groups"]):
-                                                content.update(dict([(contentTemplate["groups"][index], matchGroups[index].strip().lower()) for index in range(len(matchGroups))]))
+                                            contentMatchGroups = match.groups()
+                                            if len(contentMatchGroups) == len(contentTemplate["groups"]):
+                                                content.update(dict([(contentTemplate["groups"][index], contentMatchGroups[index].strip().lower()) for index in range(len(contentMatchGroups))]))
                                     if contentTemplate["type"] == "static":
                                         content[contentTemplate["key"]] = self.clean(contentTemplate["text"])
                                     if contentTemplate["type"] == "findByText":
