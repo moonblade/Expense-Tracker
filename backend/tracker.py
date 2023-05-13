@@ -53,6 +53,14 @@ class Tracker():
                         returnContent[key] = sanitizeItem(returnContent[key], sanitizeTemplate)
         return returnContent
 
+    def matchTag(self, tag, contentTemplate):
+        if not tag.name == contentTemplate["tagName"]:
+            return False
+        tagContent = tag.find(text=True, recursive=False)
+        if tagContent:
+            return contentTemplate["text"].lower() in tagContent.strip().lower()
+        return False
+
     def getData(self):
         expenseList = []
         data = []
@@ -76,14 +84,12 @@ class Tracker():
                                             matchGroups = match.groups()
                                             if len(matchGroups) == len(contentTemplate["groups"]):
                                                 content.update(dict([(contentTemplate["groups"][index], matchGroups[index].strip().lower()) for index in range(len(matchGroups))]))
-                                        #else:
-                                        #    print(contentTemplate["regex"])
-                                        #    print(textContent)
-
+                                    if contentTemplate["type"] == "static":
+                                        content[contentTemplate["key"]] = self.clean(contentTemplate["text"])
                                     if contentTemplate["type"] == "findByText":
                                         element = None
                                         if "text" in contentTemplate:
-                                            element = soup.find(lambda tag:tag.name == contentTemplate["tagName"] and tag.text.strip().lower() == contentTemplate["text"].lower())
+                                            element = soup.find(lambda tag:self.matchTag(tag, contentTemplate))
                                         if "findNext" in contentTemplate:
                                             for nextTag in contentTemplate["findNext"]:
                                                 try:
