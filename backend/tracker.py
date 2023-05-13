@@ -33,6 +33,7 @@ class Tracker():
     def sanitizeContent(self, content):
         returnContent = content.copy()
         def sanitizeItem(data, sanitizeTemplate):
+            orig = data
             if sanitizeTemplate["type"] == "remove":
                 if "text" in sanitizeTemplate:
                     data = data.replace(sanitizeTemplate["text"],"")
@@ -49,7 +50,7 @@ class Tracker():
                     if sanitizeTemplate["type"] == "removeKey":
                         del returnContent[key]
                     else:
-                        returnContent[key] = sanitizeItem(content[key], sanitizeTemplate)
+                        returnContent[key] = sanitizeItem(returnContent[key], sanitizeTemplate)
         return returnContent
 
     def getData(self):
