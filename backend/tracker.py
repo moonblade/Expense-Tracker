@@ -51,6 +51,8 @@ class Tracker():
                         del returnContent[key]
                     else:
                         returnContent[key] = sanitizeItem(returnContent[key], sanitizeTemplate)
+        if "transactionId" not in returnContent:
+            returnContent["transactionId"] = str(returnContent["date"])
         return returnContent
 
     def matchTag(self, tag, contentTemplate):

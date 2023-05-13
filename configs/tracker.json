@@ -120,6 +120,21 @@
           "text": "paytm"
         }]
       }]
+    }, {
+      "sender": "no-reply@revolut.com",
+      "senderTemplates": [{
+        "subjectRegex": "You sent ₹(.*) to (.*)",
+        "groups": ["amount", "payee"],
+        "contentTemplates": [{
+          "type": "regexInText",
+          "regex": "You sent ₹(.*) to (.*). You can find the details below:",
+          "groups": ["amount", "payee"]
+        }, {
+          "type": "static",
+          "key": "account",
+          "text": "revolut"
+        }]
+      }]
     }
   ]
 
