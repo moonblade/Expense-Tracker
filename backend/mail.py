@@ -41,8 +41,8 @@ class Mail(metaclass=SingletonMeta):
         self.imap.select("INBOX")
 
     def getFromDate(self):
-        deltaSeconds = self.config.get("emailHistoryTimeSeconds")
-        fromDate = datetime.datetime.now() - datetime.timedelta(seconds=deltaSeconds)
+        deltaDays = self.config.get("emailHistoryTimeDays")
+        fromDate = datetime.datetime.now() - datetime.timedelta(days=deltaDays)
         return fromDate.strftime("%d-%b-%Y")
 
     def getRawMessage(self, messageId):
