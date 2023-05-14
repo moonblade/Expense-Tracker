@@ -12,7 +12,7 @@ def initDb():
     connect(dbConfig.get("database"), host=dbConfig.get("host"), port=dbConfig.get("port"))
 
 @get('/expense')
-def hello():
+def getExpenses():
     now = datetime.now()
     fromTime = now.replace(day=1)
     toTime = now
@@ -25,4 +25,4 @@ def hello():
     return expenses.to_json()
 
 initDb()
-run(host='localhost', port=20009, debug=True)
+run(host='localhost', port=serverConfig.get("port"), debug=True)
