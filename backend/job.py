@@ -1,10 +1,12 @@
 from tracker import Tracker
 from mongoengine import connect
 from expenseModel import Expense
+from helpers import Config
 
+config = Config("db")
 
 def initDb():
-    connect('expenseTracker', host='localhost', port=27017)
+    connect(config.get("database"), host=config.get("host"), port=config.get("port"))
 
 if __name__ == "__main__":
     initDb()

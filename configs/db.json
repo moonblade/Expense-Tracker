@@ -1,0 +1,5 @@
+{
+  "database": "expenseTracker",
+  "host": "localhost",
+  "port": 27017
+}
