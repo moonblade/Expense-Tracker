@@ -3,3 +3,6 @@ requirements:
 
 run:
 	@python3 backend/job.py
+
+serve:
+	@python3 backend/server.py
