@@ -1,4 +1,4 @@
-from bottle import get, run, response, request
+from bottle import get, run, response, request, post
 from mongoengine import connect
 from expenseModel import Expense
 from helpers import Config
@@ -23,6 +23,15 @@ def getExpenses():
     expenses = Expense.objects(date__lte=toTime, date__gte=fromTime)
     response.set_header('Content-Type', 'application/json')
     return expenses.to_json()
+
+@post('/expense/<transactionId>')
+def updateExpense(transactionId):
+    expenses = Expense.objects(transactionId=transactionId)
+    response.set_header('Content-Type', 'application/json')
+    if len(expenses) > 0:
+        return expenses[0].to_json()
+    response.status = 400
+    return None
 
 initDb()
 run(host='localhost', port=serverConfig.get("port"), debug=True)
