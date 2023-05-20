@@ -1,3 +1,4 @@
 {
-  "port": 20009
+  "port": 20009,
+  "passwordFile": "secrets/adminpassword"
 }

@@ -1,4 +1,4 @@
-from bottle import get, run, response, request, post
+from bottle import auth_basic, get, run, response, request, post
 from mongoengine import connect
 from expenseModel import Expense
 from helpers import Config
@@ -11,7 +11,17 @@ serverConfig = Config("server")
 def initDb():
     connect(dbConfig.get("database"), host=dbConfig.get("host"), port=dbConfig.get("port"))
 
+def is_authenticated(user, password):
+    if user != "admin":
+        return False
+    with open(serverConfig.get("passwordFile")) as passwordFile:
+        passwd = passwordFile.read().strip()
+        if passwd != password:
+            return False
+    return True
+
 @get('/expense')
+@auth_basic(is_authenticated)
 def getExpenses():
     now = datetime.now()
     fromTime = now.replace(day=1)
@@ -25,6 +35,7 @@ def getExpenses():
     return expenses.to_json()
 
 @post('/expense/<transactionId>')
+@auth_basic(is_authenticated)
 def updateExpense(transactionId):
     expenses = Expense.objects(transactionId=transactionId)
     response.set_header('Content-Type', 'application/json')
