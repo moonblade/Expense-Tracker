@@ -33,7 +33,6 @@ class Tracker():
     def sanitizeContent(self, content):
         returnContent = content.copy()
         def sanitizeItem(data, sanitizeTemplate):
-            orig = data
             if sanitizeTemplate["type"] == "remove":
                 if "text" in sanitizeTemplate:
                     data = data.replace(sanitizeTemplate["text"],"")
@@ -53,7 +52,7 @@ class Tracker():
                         returnContent[key] = sanitizeItem(returnContent[key], sanitizeTemplate)
         if "transactionId" not in returnContent:
             returnContent["transactionId"] = str(returnContent["date"])
-        returnContent["lastUpdated"] = datetime.now
+        returnContent["lastUpdated"] = datetime.now()
         returnContent["lastUpdatedBy"] = "autoPython"
         return returnContent
 
