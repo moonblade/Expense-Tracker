@@ -2,6 +2,7 @@ from tracker import Tracker
 from mongoengine import connect
 from expenseModel import Expense
 from utils import Config
+from wise import Wise
 
 config = Config("db")
 
@@ -12,7 +13,8 @@ if __name__ == "__main__":
     initDb()
     tracker = Tracker()
     data = tracker.getData()
-    for content in data:
+    wiseData = Wise().getExpenses()
+    for content in data + wiseData:
         expense = Expense(**content)
         try:
             expense.save()
