@@ -1,7 +1,7 @@
 from bottle import auth_basic, get, run, response, request, post
 from mongoengine import connect
 from expenseModel import Expense
-from helpers import Config
+from utils import Config
 from dateutil import parser
 from datetime import datetime
 

@@ -4,7 +4,7 @@ import email
 from email.header import decode_header
 import os
 import webbrowser
-from helpers import getSecret, Config
+from utils import getSecret, Config
 import dateutil.parser
 
 class Email():

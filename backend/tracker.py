@@ -1,4 +1,4 @@
-from helpers import getSecret, Config
+from utils import getSecret, Config
 from mail import Mail
 import re
 from bs4 import BeautifulSoup
