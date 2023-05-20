@@ -1,7 +1,7 @@
 from tracker import Tracker
 from mongoengine import connect
 from expenseModel import Expense
-from helpers import Config
+from utils import Config
 
 config = Config("db")
 
