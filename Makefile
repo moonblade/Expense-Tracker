@@ -6,6 +6,3 @@ run:
 
 serve:
 	@python3 backend/server.py
-
-wise:
-	@python3 backend/wise.py
