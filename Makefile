@@ -10,3 +10,6 @@ serve:
 .PHONY: frontend
 frontend:
 	export NEXT_PUBLIC_API_PASSWORD=$$(cat secrets/adminpassword | tr -d "\n"); cd frontend; yarn dev;
+
+build-frontend:
+	export NEXT_PUBLIC_API_PASSWORD=$$(cat secrets/adminpassword | tr -d "\n"); cd frontend; yarn build;
