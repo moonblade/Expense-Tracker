@@ -1,5 +1,8 @@
 name: npm run build
-on: [push]
+on:
+  push:
+    branches: 
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -10,3 +13,9 @@ jobs:
         node-version: 16
     - run: cd frontend; npm install
     - run: cd frontend; npm run build
+    - run: cd frontend; npm run export
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        deploy_key: ${{ secrets.DEPLOY_KEY }}
+        publish_dir: ./frontend/out
