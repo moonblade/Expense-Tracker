@@ -24,6 +24,9 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
+env:
+  NEXT_PUBLIC_API_PASSWORD: ${{secrets.NEXT_PUBLIC_API_PASSWORD}}
+
 jobs:
   # Build job
   build:
