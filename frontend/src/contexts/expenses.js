@@ -8,7 +8,7 @@ const HANDLERS = {
 };
 
 const initialState = {
-  categories: {},
+  categories: [],
   expenses: [],
   fromTime: null,
   toTime: null
@@ -24,7 +24,7 @@ export const ExpenseProvider = (props) => {
   const initialized = useRef(false);
 
   const getCategorized = ((expenses) => {
-    const categories = {}
+    let categories = {}
     expenses.forEach(expense => {
       const category = expense.category
       if (!categories[category]) {
@@ -33,7 +33,9 @@ export const ExpenseProvider = (props) => {
       categories[category].expenses.push(expense);
       categories[category].total += Math.floor(expense.amount);
     })
-    return categories
+    categories = Object.values(categories);
+    categories.sort((a,b) => (a.total - b.total))
+    return categories;
   });
 
   const getExpenses = async (fromTime = null, toTime = null) => {
