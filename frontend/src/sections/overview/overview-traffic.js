@@ -87,11 +87,10 @@ export const OverviewTraffic = (props) => {
   const { expenses, categories } = useContext(ExpenseContext)
   const chartSeries = []
   const labels = []
-  console.log(categories)
-  for (const category in categories) {
-    chartSeries.push(categories[category].total)
-    labels.push(category)
-  }
+  categories.forEach(category => {
+    chartSeries.push(category.total)
+    labels.push(category.category)
+  })
   const chartOptions = useChartOptions(labels);
 
   return (
