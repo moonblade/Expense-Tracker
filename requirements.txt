@@ -1,3 +1,4 @@
+bottle-cors-plugin
 pycryptodome
 python-dateutil
 lxml
