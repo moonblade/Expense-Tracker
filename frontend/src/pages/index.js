@@ -80,6 +80,17 @@ const Page = () => (
           */}
           <Grid
             xs={12}
+            md={12}
+            lg={12}
+          >
+            <OverviewTraffic
+              chartSeries={[63, 15, 22]}
+              labels={['Desktop', 'Tablet', 'Phone']}
+              sx={{ height: '100%' }}
+            />
+          </Grid>
+          <Grid
+            xs={12}
             lg={8}
           >
             <OverviewSales
@@ -93,17 +104,6 @@ const Page = () => (
                   data: [12, 11, 4, 6, 2, 9, 9, 10, 11, 12, 13, 13]
                 }
               ]}
-              sx={{ height: '100%' }}
-            />
-          </Grid>
-          <Grid
-            xs={12}
-            md={12}
-            lg={12}
-          >
-            <OverviewTraffic
-              chartSeries={[63, 15, 22]}
-              labels={['Desktop', 'Tablet', 'Phone']}
               sx={{ height: '100%' }}
             />
           </Grid>
