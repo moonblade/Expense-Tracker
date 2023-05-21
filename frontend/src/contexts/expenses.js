@@ -2,14 +2,10 @@ import { createContext, useContext, useEffect, useReducer, useRef, useState } fr
 import PropTypes from 'prop-types';
 import api from 'src/utils/api';
 
-const HANDLERS = {
-  INITIALIZE: 'INITIALIZE',
-  GET_EXPENSES: 'GET_EXPENSES',
-};
-
 const initialState = {
   categories: [],
   expenses: [],
+  total: 0,
   fromTime: null,
   toTime: null
 };
@@ -41,10 +37,12 @@ export const ExpenseProvider = (props) => {
   const getExpenses = async (fromTime = null, toTime = null) => {
     return api.get('/expense').then(response => {
       const categories = getCategorized(response.data);
+      const total = categories.reduce((total, item) => total + item.total, 0)
       setState({
         ...state,
         fromTime,
         toTime,
+        total,
         categories,
         expenses: response.data
       })

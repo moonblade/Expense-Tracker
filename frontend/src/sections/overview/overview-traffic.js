@@ -84,7 +84,7 @@ const iconMap = {
 
 export const OverviewTraffic = (props) => {
   const { sx } = props;
-  const { expenses, categories } = useContext(ExpenseContext)
+  const { categories } = useContext(ExpenseContext)
   const chartSeries = []
   const labels = []
   categories.forEach(category => {
