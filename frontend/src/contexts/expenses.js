@@ -30,7 +30,7 @@ export const ExpenseProvider = (props) => {
       categories[category].total += Math.floor(expense.amount);
     })
     categories = Object.values(categories);
-    categories.sort((a,b) => (a.total - b.total))
+    categories.sort((a,b) => (b.total - a.total))
     return categories;
   });
 
