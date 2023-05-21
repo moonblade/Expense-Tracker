@@ -1,10 +1,10 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://expensetracker.moonblade.work/",
+  baseURL: "https://expensetracker.moonblade.work/",
   auth: {
     username: "admin",
-    password: process.env.REACT_APP_API_PASS
+    password: process.env.NEXT_PUBLIC_API_PASSWORD
   }
 });
 
