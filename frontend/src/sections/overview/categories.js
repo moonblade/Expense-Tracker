@@ -94,7 +94,7 @@ export const Categories = (props) => {
           width="100%"
         />
         <Scrollbar sx={{ flexGrow: 1 }}>
-        <Box sx={{ minWidth: 800 }}>
+        <Box>
           <Table>
             <TableHead>
               <TableRow>
