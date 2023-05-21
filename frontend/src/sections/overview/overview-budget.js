@@ -3,9 +3,12 @@ import ArrowDownIcon from '@heroicons/react/24/solid/ArrowDownIcon';
 import ArrowUpIcon from '@heroicons/react/24/solid/ArrowUpIcon';
 import CurrencyDollarIcon from '@heroicons/react/24/solid/CurrencyDollarIcon';
 import { Avatar, Card, CardContent, Stack, SvgIcon, Typography } from '@mui/material';
+import { ExpenseContext } from 'src/contexts/expenses';
+import { useContext } from 'react';
 
 export const OverviewBudget = (props) => {
   const { difference, positive = false, sx, value } = props;
+  const { total } = useContext(ExpenseContext);
 
   return (
     <Card sx={sx}>
@@ -21,10 +24,10 @@ export const OverviewBudget = (props) => {
               color="text.secondary"
               variant="overline"
             >
-              Budget
+              Total
             </Typography>
             <Typography variant="h4">
-              {value}
+              ₹ {total}
             </Typography>
           </Stack>
           <Avatar
@@ -39,7 +42,7 @@ export const OverviewBudget = (props) => {
             </SvgIcon>
           </Avatar>
         </Stack>
-        {difference && (
+        {false && difference && (
           <Stack
             alignItems="center"
             direction="row"
