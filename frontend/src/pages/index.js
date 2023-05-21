@@ -34,8 +34,8 @@ const Page = () => (
         >
           <Grid
             xs={12}
-            sm={6}
-            lg={3}
+            sm={12}
+            lg={12}
           >
             <OverviewBudget
               difference={12}
@@ -44,6 +44,7 @@ const Page = () => (
               value="$24k"
             />
           </Grid>
+          {/*
           <Grid
             xs={12}
             sm={6}
@@ -76,6 +77,7 @@ const Page = () => (
               value="$15k"
             />
           </Grid>
+          */}
           <Grid
             xs={12}
             lg={8}
