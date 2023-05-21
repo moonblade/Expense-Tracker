@@ -1,9 +1,10 @@
-from bottle import auth_basic, get, run, response, request, post
+from bottle import app, auth_basic, get, run, response, request, post
 from mongoengine import connect
 from expenseModel import Expense
 from utils import Config
 from dateutil import parser
 from datetime import datetime
+from bottle_cors_plugin import cors_plugin
 
 dbConfig = Config("db")
 serverConfig = Config("server")
@@ -19,23 +20,6 @@ def is_authenticated(user, password):
         if passwd != password:
             return False
     return True
-
-class EnableCors(object):
-    name = 'enable_cors'
-    api = 2
-
-    def apply(self, fn, _):
-        def _enable_cors(*args, **kwargs):
-            # set CORS headers
-            response.headers['Access-Control-Allow-Origin'] = '*'
-            response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, OPTIONS'
-            response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
-
-            if request.method != 'OPTIONS':
-                # actual request; reply with the actual response
-                return fn(*args, **kwargs)
-
-        return _enable_cors
 
 @get('/expense')
 @auth_basic(is_authenticated)
@@ -62,4 +46,6 @@ def updateExpense(transactionId):
     return None
 
 initDb()
+app = app()
+app.install(cors_plugin('*'))
 run(host='localhost', port=serverConfig.get("port"), debug=True)
