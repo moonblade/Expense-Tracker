@@ -71,6 +71,8 @@ class Wise():
                 for key in expenseObject:
                     if isinstance(expenseObject[key], str):
                         expenseObject[key] = expenseObject[key].lower()
+                expenseObject = self.tracker.sanitizeContent(expenseObject)
+                expenseObject = self.tracker.addCategories(expenseObject)
                 expenses.append(expenseObject)
         return expenses
 
