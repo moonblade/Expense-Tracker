@@ -98,8 +98,8 @@ const Page = () => (
           </Grid>
           <Grid
             xs={12}
-            md={6}
-            lg={4}
+            md={12}
+            lg={12}
           >
             <OverviewTraffic
               chartSeries={[63, 15, 22]}

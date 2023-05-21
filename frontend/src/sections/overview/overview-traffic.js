@@ -13,6 +13,8 @@ import {
   useTheme
 } from '@mui/material';
 import { Chart } from 'src/components/chart';
+import { useContext } from 'react';
+import { ExpenseContext } from 'src/contexts/expenses';
 
 const useChartOptions = (labels) => {
   const theme = useTheme();
@@ -81,12 +83,20 @@ const iconMap = {
 };
 
 export const OverviewTraffic = (props) => {
-  const { chartSeries, labels, sx } = props;
+  const { sx } = props;
+  const { expenses, categories } = useContext(ExpenseContext)
+  const chartSeries = []
+  const labels = []
+  console.log(categories)
+  for (const category in categories) {
+    chartSeries.push(categories[category].total)
+    labels.push(category)
+  }
   const chartOptions = useChartOptions(labels);
 
   return (
     <Card sx={sx}>
-      <CardHeader title="Traffic Source" />
+      <CardHeader title="Categories" />
       <CardContent>
         <Chart
           height={300}
@@ -108,11 +118,6 @@ export const OverviewTraffic = (props) => {
             return (
               <Box
                 key={label}
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center'
-                }}
               >
                 {iconMap[label]}
                 <Typography
@@ -125,7 +130,7 @@ export const OverviewTraffic = (props) => {
                   color="text.secondary"
                   variant="subtitle2"
                 >
-                  {item}%
+                  {item}
                 </Typography>
               </Box>
             );
