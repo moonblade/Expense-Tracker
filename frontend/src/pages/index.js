@@ -1,9 +1,9 @@
 import Head from 'next/head';
 import { Box, Container, Unstable_Grid2 as Grid } from '@mui/material';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
-import { Categories } from 'src/sections/overview/categories';
 import { TimeframeSelector } from 'src/sections/overview/timeframe-selector';
 import { Total } from 'src/sections/overview/total';
+import { Donut } from 'src/sections/overview/donut';
 
 const Page = () => (
   <>
@@ -43,7 +43,7 @@ const Page = () => (
             md={12}
             lg={12}
           >
-            <Categories/>
+            <Donut/>
           </Grid>
         </Grid>
       </Container>
