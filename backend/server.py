@@ -31,7 +31,7 @@ def getExpenses():
         fromTime = parser.parse(request.query.fromTime)
     if request.query.toTime:
         toTime = parser.parse(request.query.toTime)
-    expenses = Expense.objects(date__lte=toTime, date__gte=fromTime)
+    expenses = Expense.objects(date__lte=toTime, date__gte=fromTime).order_by("-date")
     response.set_header('Content-Type', 'application/json')
     return expenses.to_json()
 
