@@ -2,6 +2,7 @@ from mongoengine import *
 from datetime import datetime
 
 class Expense(DynamicDocument):
+    enabled = BooleanField(default=True)
     account = StringField(default='unknown')
     amount = FloatField(default=0)
     payee = StringField(default='unknown')
