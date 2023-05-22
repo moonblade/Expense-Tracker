@@ -5,13 +5,11 @@ import { Categories } from 'src/sections/overview/categories';
 import { TimeframeSelector } from 'src/sections/overview/timeframe-selector';
 import { Total } from 'src/sections/overview/total';
 
-const now = new Date();
-
 const Page = () => (
   <>
     <Head>
       <title>
-        Overview | Devias Kit
+        Expenses
       </title>
     </Head>
     <Box
