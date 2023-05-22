@@ -7,44 +7,35 @@ import {
   Card,
   CardContent,
   CardHeader,
-  Stack,
-  SvgIcon,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-  Typography,
-  useTheme
 } from '@mui/material';
 import { Chart } from 'src/components/chart';
 import { useContext } from 'react';
 import { ExpenseContext } from 'src/contexts/expenses';
 import { Scrollbar } from 'src/components/scrollbar';
-import { SeverityPill } from 'src/components/severity-pill';
 
 const useChartOptions = (labels) => {
-  const theme = useTheme();
-
   return {
     chart: {
       background: 'transparent'
     },
-    colors: [
-      theme.palette.primary.main,
-      theme.palette.success.main,
-      theme.palette.warning.main
-    ],
     dataLabels: {
-      enabled: false
+      minAngleToShowLabel: 10,
+      formatter: function (_, opts) {
+            return opts.w.config.series[opts.seriesIndex]
+      },
     },
     labels,
     legend: {
-      show: false
+      position: 'bottom'
     },
     plotOptions: {
       pie: {
-        expandOnClick: false
+        // expandOnClick: false
       }
     },
     states: {
@@ -61,9 +52,6 @@ const useChartOptions = (labels) => {
     },
     stroke: {
       width: 0
-    },
-    theme: {
-      mode: theme.palette.mode
     },
     tooltip: {
       fillSeriesColor: false
@@ -87,48 +75,47 @@ export const Categories = (props) => {
       <CardHeader title="Categories" />
       <CardContent>
         <Chart
-          height={300}
           options={chartOptions}
           series={chartSeries}
           type="donut"
-          width="100%"
         />
-        <Scrollbar sx={{ flexGrow: 1 }}>
-        <Box>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>
-                  Category
-                </TableCell>
-                <TableCell sortDirection="desc">
-                  Amount
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {
-                  
-                  categories.map((item, id) => {
-                return (
-                  <TableRow
-                    hover
-                    key={id}
-                  >
-                    <TableCell>
-                      {item.category}
-                    </TableCell>
-                    <TableCell>
-                      {item.total}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </Box>
-      </Scrollbar>
-
+        {
+      //   <Scrollbar sx={{ flexGrow: 1 }}>
+      //   <Box>
+      //     <Table>
+      //       <TableHead>
+      //         <TableRow>
+      //           <TableCell>
+      //             Category
+      //           </TableCell>
+      //           <TableCell sortDirection="desc">
+      //             Amount
+      //           </TableCell>
+      //         </TableRow>
+      //       </TableHead>
+      //       <TableBody>
+      //         {
+      //             
+      //             categories.map((item, id) => {
+      //           return (
+      //             <TableRow
+      //               hover
+      //               key={id}
+      //             >
+      //               <TableCell>
+      //                 {item.category}
+      //               </TableCell>
+      //               <TableCell>
+      //                 {item.total}
+      //               </TableCell>
+      //             </TableRow>
+      //           );
+      //         })}
+      //       </TableBody>
+      //     </Table>
+      //   </Box>
+      // </Scrollbar>
+        }
       </CardContent>
     </Card>
   );
