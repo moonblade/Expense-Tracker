@@ -11,7 +11,9 @@ export const OverviewBudget = () => {
 
   return (
     <Card>
-      <CardHeader title="TOTAL" />
+      {
+      // <CardHeader title="TOTAL" />
+      }
       <CardContent>
         <Stack
           alignItems="flex-start"
