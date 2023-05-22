@@ -10,6 +10,7 @@ import { OverviewTasksProgress } from 'src/sections/overview/overview-tasks-prog
 import { OverviewTotalCustomers } from 'src/sections/overview/overview-total-customers';
 import { OverviewTotalProfit } from 'src/sections/overview/overview-total-profit';
 import { Categories } from 'src/sections/overview/categories';
+import { TimeframeSelector } from 'src/sections/overview/timeframe-selector';
 
 const now = new Date();
 
@@ -32,6 +33,13 @@ const Page = () => (
           container
           spacing={3}
         >
+          <Grid
+            xs={12}
+            sm={12}
+            lg={12}
+          >
+            <TimeframeSelector/>
+          </Grid>
           <Grid
             xs={12}
             sm={12}

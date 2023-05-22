@@ -1,13 +1,14 @@
-import { createContext, useContext, useEffect, useReducer, useRef, useState } from 'react';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import api from 'src/utils/api';
+import moment from "moment";
 
 const initialState = {
   categories: [],
   expenses: [],
   total: 0,
-  fromTime: null,
-  toTime: null
+  fromTime: moment().startOf('month').format('YYYY-MM-DD'),
+  toTime: moment().endOf('month').format('YYYY-MM-DD')
 };
 
 // The role of this context is to propagate authentication state through the App tree.
@@ -35,7 +36,12 @@ export const ExpenseProvider = (props) => {
   });
 
   const getExpenses = async (fromTime = null, toTime = null) => {
-    return api.get('/expense').then(response => {
+    return api.get('/expense', {
+      params: {
+        fromTime,
+        toTime
+      }
+    }).then(response => {
       const categories = getCategorized(response.data);
       const total = categories.reduce((total, item) => total + item.total, 0)
       setState({
@@ -57,7 +63,7 @@ export const ExpenseProvider = (props) => {
     if (initialized.current) {
       return;
     }
-    getExpenses();
+    getExpenses(initialState.fromTime, initialState.toTime);
   };
 
   useEffect(
