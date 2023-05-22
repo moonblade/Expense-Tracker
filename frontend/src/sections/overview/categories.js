@@ -72,7 +72,7 @@ export const Categories = (props) => {
 
   return (
     <Card sx={sx}>
-      <CardHeader title="Categories" />
+      <CardHeader title="CATEGORIES" />
       <CardContent>
         <Chart
           options={chartOptions}
