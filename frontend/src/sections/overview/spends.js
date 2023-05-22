@@ -14,14 +14,13 @@ import moment from "moment";
 
 export const Spends = () => {
   const { expenses } = useContext(ExpenseContext);
-  console.log(expenses);
 
   return (
     <Card>
       <CardContent>
         <List>
-          {expenses.map((expense) => (
-            <ListItem>
+          {expenses.map((expense, key) => (
+            <ListItem key={key}>
               <ListItemAvatar>
                 <Avatar>{categories[expense.category]?.icon}</Avatar>
               </ListItemAvatar>
