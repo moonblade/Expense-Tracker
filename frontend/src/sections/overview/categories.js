@@ -1,36 +1,43 @@
-import { ShoppingBagIcon, NoSymbolIcon, TruckIcon, UserGroupIcon, CakeIcon, UserIcon } from "@heroicons/react/24/solid";
+import {
+  ShoppingBagIcon,
+  NoSymbolIcon,
+  TruckIcon,
+  UserGroupIcon,
+  CakeIcon,
+  UserIcon,
+} from "@heroicons/react/24/solid";
 
 const categories = {
   groceries: {
     label: "Groceries",
     category: "groceries",
-    icon: ShoppingBagIcon,
+    icon: <ShoppingBagIcon />,
   },
   unknown: {
     label: "Unknown",
     category: "unknown",
-    icon: NoSymbolIcon,
+    icon: <NoSymbolIcon />,
   },
   travel: {
     label: "Travel",
     category: "travel",
-    icon: TruckIcon,
+    icon: <TruckIcon />,
   },
   family: {
     label: "Family",
     category: "family",
-    icon: UserGroupIcon,
-  }, 
+    icon: <UserGroupIcon />,
+  },
   food: {
     label: "Food",
     category: "food",
-    icon: CakeIcon,
+    icon: <CakeIcon />,
   },
   friends: {
     label: "Friends",
     category: "friends",
-    icon: UserIcon,
-  }
+    icon: <UserIcon />,
+  },
 };
 
 export default categories;
