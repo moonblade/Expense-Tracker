@@ -1,22 +1,11 @@
-import PropTypes from 'prop-types';
-import ComputerDesktopIcon from '@heroicons/react/24/solid/ComputerDesktopIcon';
-import DeviceTabletIcon from '@heroicons/react/24/solid/DeviceTabletIcon';
-import PhoneIcon from '@heroicons/react/24/solid/PhoneIcon';
 import {
-  Box,
   Card,
   CardContent,
   CardHeader,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
 } from '@mui/material';
 import { Chart } from 'src/components/chart';
 import { useContext } from 'react';
 import { ExpenseContext } from 'src/contexts/expenses';
-import { Scrollbar } from 'src/components/scrollbar';
 
 const useChartOptions = (labels) => {
   return {
@@ -59,8 +48,7 @@ const useChartOptions = (labels) => {
   };
 };
 
-export const Categories = (props) => {
-  const { sx } = props;
+export const Categories = () => {
   const { categories } = useContext(ExpenseContext)
   const chartSeries = []
   const labels = []
@@ -71,7 +59,7 @@ export const Categories = (props) => {
   const chartOptions = useChartOptions(labels);
 
   return (
-    <Card sx={sx}>
+    <Card>
       <CardHeader title="CATEGORIES" />
       <CardContent>
         <Chart
@@ -79,43 +67,6 @@ export const Categories = (props) => {
           series={chartSeries}
           type="donut"
         />
-        {
-      //   <Scrollbar sx={{ flexGrow: 1 }}>
-      //   <Box>
-      //     <Table>
-      //       <TableHead>
-      //         <TableRow>
-      //           <TableCell>
-      //             Category
-      //           </TableCell>
-      //           <TableCell sortDirection="desc">
-      //             Amount
-      //           </TableCell>
-      //         </TableRow>
-      //       </TableHead>
-      //       <TableBody>
-      //         {
-      //             
-      //             categories.map((item, id) => {
-      //           return (
-      //             <TableRow
-      //               hover
-      //               key={id}
-      //             >
-      //               <TableCell>
-      //                 {item.category}
-      //               </TableCell>
-      //               <TableCell>
-      //                 {item.total}
-      //               </TableCell>
-      //             </TableRow>
-      //           );
-      //         })}
-      //       </TableBody>
-      //     </Table>
-      //   </Box>
-      // </Scrollbar>
-        }
       </CardContent>
     </Card>
   );
