@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import CurrencyRupeeIcon from '@heroicons/react/24/solid/CurrencyRupeeIcon';
 import { Avatar, Card, CardContent, Stack, SvgIcon, Typography } from '@mui/material';
 import { ExpenseContext } from 'src/contexts/expenses';
@@ -9,9 +8,6 @@ export const Total = () => {
 
   return (
     <Card>
-      {
-      // <CardHeader title="TOTAL" />
-      }
       <CardContent>
         <Stack
           alignItems="flex-start"

@@ -1,7 +1,6 @@
 import {
   Card,
   CardContent,
-  CardHeader,
 } from '@mui/material';
 import { Chart } from 'src/components/chart';
 import { useContext } from 'react';
@@ -60,7 +59,6 @@ export const Donut = () => {
 
   return (
     <Card>
-      <CardHeader title="CATEGORIES" />
       <CardContent>
         <Chart
           options={chartOptions}
