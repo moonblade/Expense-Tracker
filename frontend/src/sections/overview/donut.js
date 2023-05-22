@@ -48,7 +48,7 @@ const useChartOptions = (labels) => {
   };
 };
 
-export const Categories = () => {
+export const Donut = () => {
   const { categories } = useContext(ExpenseContext)
   const chartSeries = []
   const labels = []
