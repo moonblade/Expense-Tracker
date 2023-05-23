@@ -2,21 +2,18 @@ import {
   Avatar,
   Card,
   CardContent,
-  Item,
-  Divider,
   Grid,
   IconButton,
   List,
   ListItem,
   ListItemAvatar,
-  ListItemIcon,
   ListItemText,
   Menu,
   MenuItem,
   SvgIcon,
   Typography,
 } from "@mui/material";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ExpenseContext } from "src/contexts/expenses";
 import categories from "./categories";
 import moment from "moment";
@@ -28,9 +25,11 @@ export const Spends = () => {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -40,8 +39,8 @@ export const Spends = () => {
     handleClose();
   };
 
-  const ignore = (value) => {
-    console.log("ignore", value);
+  const ignore = () => {
+    console.log(expenses[anchorEl.value])
     handleClose();
   };
 
@@ -77,8 +76,9 @@ export const Spends = () => {
                 }
               />
               <IconButton
+                value={key}
                 id={"basic-button" + key}
-                aria-controls={open ? "basic-menu" : undefined}
+                aria-controls={open ? "basic-menu" + key : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? "true" : undefined}
                 onClick={handleClick}
@@ -88,7 +88,7 @@ export const Spends = () => {
                 </SvgIcon>
               </IconButton>
               <Menu
-                id="basic-menu"
+                id={"basic-menu" + key}
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}
@@ -99,7 +99,7 @@ export const Spends = () => {
                 {expense.enabled == false && (
                   <MenuItem
                     onClick={() => {
-                      unignore(expense);
+                      unignore();
                     }}
                   >
                     Unignore
@@ -108,7 +108,7 @@ export const Spends = () => {
                 {expense.enabled != false && (
                   <MenuItem
                     onClick={() => {
-                      ignore(expense);
+                      ignore();
                     }}
                   >
                     Ignore
