@@ -57,7 +57,7 @@ export const Spends = () => {
               <ListItemText
                 primary={expense.payee}
                 secondary={
-                  <Fragment component={"span"}>
+                  <Fragment>
                     <Grid container>
                       <Grid item xs={6}>
                         <Typography component={"span"}>₹ {expense.amount}</Typography>
@@ -108,7 +108,7 @@ export const Spends = () => {
                 {expense.enabled != false && (
                   <MenuItem
                     onClick={() => {
-                      ignore(expenes[]);
+                      ignore(expense);
                     }}
                   >
                     Ignore
