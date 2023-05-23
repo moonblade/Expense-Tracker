@@ -55,26 +55,20 @@ export const Spends = () => {
                 <Avatar>{categories[expense.category]?.icon}</Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary={
-                  <Fragment>
-                    <Grid container>
-                      <Grid item xs={12} style={{ "font-size": "0.9rem", overflow: "hidden" }}>
-                        {expense.payee}
-                      </Grid>
-                      <Grid item xs={0} style={{ "font-size": "0.6rem" }}>
-                        {false && moment(expense.date.$date).format("MMMM D, h:mm A")}
-                      </Grid>
-                    </Grid>
-                  </Fragment>
-                }
+                primary={expense.payee}
                 secondary={
-                  <Fragment>
+                  <Fragment component={"span"}>
                     <Grid container>
                       <Grid item xs={6}>
-                        <Typography>₹ {expense.amount}</Typography>
+                        <Typography component={"span"}>₹ {expense.amount}</Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        <Typography varient="caption" display="block" fontSize={"0.6rem"}>
+                        <Typography
+                          component={"span"}
+                          varient="caption"
+                          display="block"
+                          fontSize={"0.6rem"}
+                        >
                           {moment(expense.date.$date).format("MMMM D, h:mm A")}
                         </Typography>
                       </Grid>
@@ -114,7 +108,7 @@ export const Spends = () => {
                 {expense.enabled != false && (
                   <MenuItem
                     onClick={() => {
-                      ignore(expense);
+                      ignore(expenes[]);
                     }}
                   >
                     Ignore
