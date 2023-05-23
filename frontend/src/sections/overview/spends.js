@@ -58,7 +58,13 @@ export const Spends = () => {
                 <Avatar>{categories[expense.category]?.icon}</Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary={expense.payee}
+                primary={
+                  <Typography
+                    style={{ "text-decoration": expense.enabled == false ? "line-through" : "" }}
+                  >
+                    {expense.payee}
+                  </Typography>
+                }
                 secondary={
                   <Fragment>
                     <Grid container>
@@ -101,19 +107,9 @@ export const Spends = () => {
                 }}
               >
                 {selectedExpense?.enabled == false && (
-                  <MenuItem
-                    onClick={unignore}
-                  >
-                    Unignore
-                  </MenuItem>
+                  <MenuItem onClick={unignore}>Unignore</MenuItem>
                 )}
-                {selectedExpense?.enabled != false && (
-                  <MenuItem
-                    onClick={ignore}
-                  >
-                    Ignore
-                  </MenuItem>
-                )}
+                {selectedExpense?.enabled != false && <MenuItem onClick={ignore}>Ignore</MenuItem>}
               </Menu>
             </ListItem>
           ))}
