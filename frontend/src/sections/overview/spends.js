@@ -13,7 +13,7 @@ import {
   SvgIcon,
   Typography,
 } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { ExpenseContext } from "src/contexts/expenses";
 import categories from "./categories";
 import moment from "moment";
@@ -21,26 +21,30 @@ import { EllipsisVerticalIcon } from "@heroicons/react/24/solid";
 import { Fragment } from "react";
 
 export const Spends = () => {
-  const { expenses } = useContext(ExpenseContext);
+  const { expenses, updateExpense } = useContext(ExpenseContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedExpense, setSelectedExpense] = useState(expenses[0] || null);
   const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+    setSelectedExpense(expenses[event.currentTarget.value]);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const unignore = (value) => {
-    console.log(value);
+  const unignore = () => {
+    selectedExpense.enabled = true;
+    updateExpense(selectedExpense);
     handleClose();
   };
 
   const ignore = () => {
-    const expense = expenses[anchorEl.value];
+    selectedExpense.enabled = false;
+    updateExpense(selectedExpense);
     handleClose();
   };
 
@@ -96,20 +100,16 @@ export const Spends = () => {
                   "aria-labelledby": "basic-button" + key,
                 }}
               >
-                {expense.enabled == false && (
+                {selectedExpense?.enabled == false && (
                   <MenuItem
-                    onClick={() => {
-                      unignore();
-                    }}
+                    onClick={unignore}
                   >
                     Unignore
                   </MenuItem>
                 )}
-                {expense.enabled != false && (
+                {selectedExpense?.enabled != false && (
                   <MenuItem
-                    onClick={() => {
-                      ignore();
-                    }}
+                    onClick={ignore}
                   >
                     Ignore
                   </MenuItem>

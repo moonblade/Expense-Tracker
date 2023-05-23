@@ -1,14 +1,14 @@
-import { createContext, useContext, useEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
-import api from 'src/utils/api';
+import { createContext, useContext, useEffect, useRef, useState } from "react";
+import PropTypes from "prop-types";
+import api from "src/utils/api";
 import moment from "moment";
 
 const initialState = {
   categories: [],
   expenses: [],
   total: 0,
-  fromTime: moment().startOf('month').format('YYYY-MM-DD'),
-  toTime: moment().endOf('month').format('YYYY-MM-DD')
+  fromTime: moment().startOf("month").format("YYYY-MM-DD"),
+  toTime: moment().endOf("month").format("YYYY-MM-DD"),
 };
 
 // The role of this context is to propagate authentication state through the App tree.
@@ -20,39 +20,44 @@ export const ExpenseProvider = (props) => {
   const [state, setState] = useState(initialState);
   const initialized = useRef(false);
 
-  const getCategorized = ((expenses) => {
-    let categories = {}
-    expenses.forEach(expense => {
-      const category = expense.category
+  const getCategorized = (expenses) => {
+    let categories = {};
+    expenses.forEach((expense) => {
+      const category = expense.category;
+      if (expense.enabled == false)
+        return;
       if (!categories[category]) {
-        categories[category] = {total: 0, expenses: [], category: expense.category}
+        categories[category] = { total: 0, expenses: [], category: expense.category };
       }
       categories[category].expenses.push(expense);
       categories[category].total += Math.floor(expense.amount);
-    })
+    });
     categories = Object.values(categories);
-    categories.sort((a,b) => (b.total - a.total))
+    categories.sort((a, b) => b.total - a.total);
     return categories;
-  });
+  };
 
   const getExpenses = async (fromTime = null, toTime = null) => {
-    return api.get('/expense', {
-      params: {
-        fromTime,
-        toTime
-      }
-    }).then(response => {
-      const categories = getCategorized(response.data);
-      const total = categories.reduce((total, item) => total + item.total, 0)
-      setState({
-        ...state,
-        fromTime,
-        toTime,
-        total,
-        categories,
-        expenses: response.data
+    return api
+      .get("/expense", {
+        params: {
+          fromTime,
+          toTime,
+        },
       })
-    }).catch(err => {
+      .then((response) => {
+        const categories = getCategorized(response.data);
+        const total = categories.reduce((total, item) => total + item.total, 0);
+        setState({
+          ...state,
+          fromTime,
+          toTime,
+          total,
+          categories,
+          expenses: response.data,
+        });
+      })
+      .catch((err) => {
         setState(initialState);
         console.error(err);
       });
@@ -74,11 +79,24 @@ export const ExpenseProvider = (props) => {
     []
   );
 
+  const updateExpense = async (expense) => {
+    return api
+      .post("/expense/" + expense.transactionId, expense)
+      .then((response) => {
+        if (response.status == 200)
+          getExpenses(state.fromTime, state.toTime);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   return (
     <ExpenseContext.Provider
       value={{
         ...state,
         getExpenses,
+        updateExpense
       }}
     >
       {children}
@@ -87,7 +105,7 @@ export const ExpenseProvider = (props) => {
 };
 
 ExpenseProvider.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 export const ExpenseConsumer = ExpenseContext.Consumer;
