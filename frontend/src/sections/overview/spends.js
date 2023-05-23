@@ -40,7 +40,7 @@ export const Spends = () => {
   };
 
   const ignore = () => {
-    console.log(expenses[anchorEl.value])
+    const expense = expenses[anchorEl.value];
     handleClose();
   };
 
