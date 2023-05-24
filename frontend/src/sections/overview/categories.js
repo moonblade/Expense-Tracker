@@ -142,6 +142,7 @@ const categories = {
     ),
   },
   notFound: {
+    category: "notFound",
     icon: (
       <Avatar sx={{backgroundColor: '#9C3848'}}>
         <SvgIcon>
