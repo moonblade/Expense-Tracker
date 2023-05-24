@@ -65,7 +65,7 @@ export const Spends = () => {
             {expenses.map((expense, key) => (<>{
               !(expense.deleted) && !(expense.amount == 0) && (
                 <ListItem key={key}>
-                  <ListItemAvatar>{categories[expense.category]?.icon}</ListItemAvatar>
+                  <ListItemAvatar>{categories[expense.category] == undefined ? categories["notFound"].icon : categories[expense.category].icon}</ListItemAvatar>
                   <ListItemText
                     primary={
                       <Typography
