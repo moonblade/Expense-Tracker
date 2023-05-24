@@ -28,7 +28,7 @@ export const Spends = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedExpense, setSelectedExpense] = useState(expenses[0] || null);
   const open = Boolean(anchorEl);
-  const [openModal, setOpenModal] = useState(false);
+  const [openCategoryModal, setOpenCategoryModal] = useState(false);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -54,7 +54,7 @@ export const Spends = () => {
   const setCategory = (category) => {
     selectedExpense.category = category.category;
     updateExpense(selectedExpense);
-    setOpenModal(false);
+    setOpenCategoryModal(false);
   };
 
   return (
@@ -127,7 +127,7 @@ export const Spends = () => {
         {selectedExpense?.enabled != false && <MenuItem onClick={ignore}>Ignore</MenuItem>}
         <MenuItem
           onClick={() => {
-            setOpenModal(true);
+            setOpenCategoryModal(true);
             handleClose();
           }}
         >
@@ -136,10 +136,10 @@ export const Spends = () => {
       </Menu>
       <Modal
         keepMounted
-        open={openModal}
-        onClose={() => setOpenModal(false)}
-        aria-labelledby="keep-mounted-modal-title"
-        aria-describedby="keep-mounted-modal-description"
+        open={openCategoryModal}
+        onClose={() => setOpenCategoryModal(false)}
+        aria-labelledby="keep-mounted-modal-category-title"
+        aria-describedby="keep-mounted-modal-category-description"
       >
         <Box
           style={{
