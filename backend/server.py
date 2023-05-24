@@ -46,6 +46,7 @@ def updateExpense(transactionId):
         if "_id" in body:
             del body["_id"]
         body["lastUpdated"] = datetime.now()
+        body["lastUpdatedBy"] = "api"
         body["date"] = expenses[0].date
         expenses[0].update(**body)
         response.status = 200
