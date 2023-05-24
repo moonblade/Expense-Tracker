@@ -9,8 +9,15 @@ import {
 } from "@heroicons/react/24/solid";
 import { Avatar, SvgIcon } from "@mui/material";
 import RestaurantIcon from '@mui/icons-material/Restaurant';
-import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import FamilyRestroomIcon from '@mui/icons-material/FamilyRestroom';
+import FlightIcon from '@mui/icons-material/Flight';
+import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
+import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
 
 const categories = {
   groceries: {
@@ -28,9 +35,9 @@ const categories = {
     label: "Unknown",
     category: "unknown",
     icon: (
-      <Avatar sx={{backgroundColor: '#FAAB78'}}>
+      <Avatar sx={{backgroundColor: '#F98948'}}>
         <SvgIcon>
-          <NoSymbolIcon />
+          <HelpOutlineIcon />
         </SvgIcon>
       </Avatar>
     ),
@@ -39,9 +46,9 @@ const categories = {
     label: "Travel",
     category: "travel",
     icon: (
-      <Avatar sx={{backgroundColor: '#A6B1E1'}}>
+      <Avatar sx={{backgroundColor: '#3C4767'}}>
         <SvgIcon>
-          <TruckIcon />
+          <FlightIcon />
         </SvgIcon>
       </Avatar>
     ),
@@ -50,9 +57,9 @@ const categories = {
     label: "Family",
     category: "family",
     icon: (
-      <Avatar sx={{backgroundColor: '#FFDFD3'}}>
+      <Avatar sx={{backgroundColor: '#266DD3'}}>
         <SvgIcon>
-          <UserGroupIcon />
+          <FamilyRestroomIcon />
         </SvgIcon>
       </Avatar>
     ),
@@ -72,9 +79,9 @@ const categories = {
     label: "Friends",
     category: "friends",
     icon: (
-      <Avatar sx={{backgroundColor: '#D3F6F3'}}>
+      <Avatar sx={{backgroundColor: '#998DA0'}}>
         <SvgIcon>
-          <UserIcon />
+          <SupervisedUserCircleIcon />
         </SvgIcon>
       </Avatar>
     ),
@@ -83,9 +90,9 @@ const categories = {
     label: "Health",
     category: "health",
     icon: (
-      <Avatar sx={{backgroundColor: '#C7E9B0'}}>
+      <Avatar sx={{backgroundColor: '#FFFC47'}}>
         <SvgIcon>
-          <HealthAndSafetyIcon />
+          <LocalHospitalIcon />
         </SvgIcon>
       </Avatar>
     ),
@@ -94,7 +101,7 @@ const categories = {
     label: "Body",
     category: "body",
     icon: (
-      <Avatar sx={{backgroundColor: '#C7E9B0'}}>
+      <Avatar sx={{backgroundColor: '#DB8A57'}}>
         <SvgIcon>
           <AccessibilityNewIcon />
         </SvgIcon>
@@ -105,13 +112,44 @@ const categories = {
     label: "Home",
     category: "home",
     icon: (
-      <Avatar sx={{backgroundColor: '#C7E9B0'}}>
+      <Avatar sx={{backgroundColor: '#226F54'}}>
         <SvgIcon>
           <HomeIcon />
         </SvgIcon>
       </Avatar>
     ),
-  } 
+  }, 
+  phone:{
+    label: "Phone",
+    category: "phone",
+    icon: (
+      <Avatar sx={{backgroundColor: '#A882DD'}}>
+        <SvgIcon>
+          <PhoneIphoneIcon />
+        </SvgIcon>
+      </Avatar>
+    ),
+  },
+  fuel:{
+    label: "Fuel",
+    category: "fuel",
+    icon: (
+      <Avatar sx={{backgroundColor: '#FBB02D'}}>
+        <SvgIcon>
+          <LocalGasStationIcon />
+        </SvgIcon>
+      </Avatar>
+    ),
+  },
+  notFound: {
+    icon: (
+      <Avatar sx={{backgroundColor: '#9C3848'}}>
+        <SvgIcon>
+          <ErrorOutlineIcon />
+        </SvgIcon>
+      </Avatar>
+    ),
+  }
 };
 
 export default categories;

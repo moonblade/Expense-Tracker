@@ -24,7 +24,7 @@ export const ExpenseProvider = (props) => {
     let categories = {};
     expenses.forEach((expense) => {
       const category = expense.category;
-      if (expense.enabled == false)
+      if (expense.enabled == false || expense.deleted || expense.amount == 0)
         return;
       if (!categories[category]) {
         categories[category] = { total: 0, expenses: [], category: expense.category };
