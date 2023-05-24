@@ -152,7 +152,7 @@ export const Spends = () => {
           <Card>
             <CardContent>
               <Grid container>
-                {Object.values(categories).map((category, key) => (
+                {Object.values(categories).filter((category)=>category.category!="notFound").map((category, key) => (
                   <Grid key={key} item xs={6} sx={{ p: 1 }} onClick={() => setCategory(category)}>
                     <Box style={{ overflow: "hidden" }}>
                       {category.icon}
