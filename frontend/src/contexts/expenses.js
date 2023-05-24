@@ -9,6 +9,8 @@ const initialState = {
   total: 0,
   fromTime: moment().startOf("month").format("YYYY-MM-DD"),
   toTime: moment().endOf("month").format("YYYY-MM-DD"),
+  filter: {},
+  filteredExpenses: [],
 };
 
 // The role of this context is to propagate authentication state through the App tree.
@@ -37,6 +39,17 @@ export const ExpenseProvider = (props) => {
     return categories;
   };
 
+  const getFiltered = (expenses, filter) => {
+    let filteredExpenses = [];
+    expenses.forEach(expense => {
+      if (filter.category && filter.category != expense.category) {
+        return
+      }
+      filteredExpenses.push(expense);
+    })
+    return filteredExpenses;
+  }
+
   const getExpenses = async (fromTime = null, toTime = null) => {
     return api
       .get("/expense", {
@@ -47,6 +60,7 @@ export const ExpenseProvider = (props) => {
       })
       .then((response) => {
         const categories = getCategorized(response.data);
+        const filteredExpenses = getFiltered(response.data, state.filter);
         const total = categories.reduce((total, item) => total + item.total, 0);
         setState({
           ...state,
@@ -54,6 +68,7 @@ export const ExpenseProvider = (props) => {
           toTime,
           total,
           categories,
+          filteredExpenses,
           expenses: response.data,
         });
       })
@@ -91,12 +106,21 @@ export const ExpenseProvider = (props) => {
       });
   };
 
+  const updateFilter = async (filter) => {
+    setState({
+      ...state, 
+      filter,
+      filteredExpenses: getFiltered(state.expenses, filter)
+    });
+  }
+
   return (
     <ExpenseContext.Provider
       value={{
         ...state,
         getExpenses,
-        updateExpense
+        updateExpense,
+        updateFilter
       }}
     >
       {children}

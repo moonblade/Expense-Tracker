@@ -23,7 +23,7 @@ import { EllipsisVerticalIcon } from "@heroicons/react/24/solid";
 import { Fragment } from "react";
 
 export const Spends = () => {
-  const { expenses, updateExpense } = useContext(ExpenseContext);
+  const { updateExpense, filteredExpenses: expenses } = useContext(ExpenseContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedExpense, setSelectedExpense] = useState(expenses[0] || null);
@@ -63,7 +63,7 @@ export const Spends = () => {
         <CardContent>
           <List>
             {expenses.map((expense, key) => (<>{
-              !(expense.deleted) && !(expense.amount == 0) && (
+              !(expense.deleted) && !(expense.amount == 0) && !(expense.hide) && (
                 <ListItem key={key}>
                   <ListItemAvatar>{categories[expense.category] == undefined ? categories["notFound"].icon : categories[expense.category].icon}</ListItemAvatar>
                   <ListItemText
