@@ -9,7 +9,7 @@ export const AuthProvider = (props) => {
   if (session) {
     console.log(session.user.email);
   } else {
-    // signIn("github");
+    signIn("github");
   }
 
   return (
