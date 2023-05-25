@@ -28,7 +28,7 @@ env:
   NEXT_PUBLIC_API_PASSWORD: ${{secrets.NEXT_PUBLIC_API_PASSWORD}}
   NEXT_PUBLIC_GITHUB_ID: ${{secrets.NEXT_PUBLIC_GITHUB_ID}}
   NEXT_PUBLIC_GITHUB_SECRET: ${{secrets.NEXT_PUBLIC_GITHUB_SECRET}}
-  NEXT_PUBLIC_NEXTAUTH_URL: "http://expense.moonblade.work"
+  NEXT_PUBLIC_NEXTAUTH_URL: http://expense.moonblade.work
 
 jobs:
   # Build job
