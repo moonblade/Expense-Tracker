@@ -11,6 +11,9 @@ if (isGithubActions) {
   // basePath = `/${repo}`
   process.env.NEXTAUTH_URL = "https://expense.moonblade.work/"
   process.env.NEXT_PUBLIC_NEXTAUTH_URL = "https://expense.moonblade.work/"
+  console.log("in github action")
+  console.log(process.env.NEXTAUTH_URL)
+  console.log(process.env.NEXT_PUBLIC_NEXTAUTH_URL)
 }
 
 module.exports = {
