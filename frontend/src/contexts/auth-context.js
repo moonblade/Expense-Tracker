@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
 import PropTypes from 'prop-types';
 
+
 const HANDLERS = {
   INITIALIZE: 'INITIALIZE',
   SIGN_IN: 'SIGN_IN',
@@ -128,6 +129,7 @@ export const AuthProvider = (props) => {
   };
 
   const signIn = async (email, password) => {
+
     if (email !== 'demo@devias.io' || password !== 'Password123!') {
       throw new Error('Please check your email and password');
     }
