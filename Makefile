@@ -9,7 +9,4 @@ serve:
 
 .PHONY: frontend
 frontend:
-	export NEXT_PUBLIC_API_PASSWORD=$$(cat secrets/adminpassword | tr -d "\n"); cd frontend; yarn dev;
-
-build-frontend:
-	export NEXT_PUBLIC_API_PASSWORD=$$(cat secrets/adminpassword | tr -d "\n"); cd frontend; yarn build;
+	export NEXT_PUBLIC_API_PASSWORD=$$(cat secrets/adminpassword | tr -d "\n"); export NEXT_PUBLIC_GITHUB_ID=$$(cat secrets/githubClientId | tr -d "\n"); export NEXT_PUBLIC_GITHUB_SECRET=$$(cat secrets/githubClientSecret | tr -d "\n"); cd frontend; yarn dev;
