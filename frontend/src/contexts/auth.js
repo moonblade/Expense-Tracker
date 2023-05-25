@@ -1,6 +1,6 @@
 import { Box, Button } from "@mui/material";
 import { useSession, signIn, signOut } from "next-auth/react";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const AuthContext = createContext({ undefined });
 export const AuthProvider = (props) => {
