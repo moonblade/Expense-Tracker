@@ -8,6 +8,10 @@ export const AuthProvider = (props) => {
   const { data: session } = useSession();
   const [user, setUser] = useState({});
 
+  useEffect(() => {
+    console.log(user);
+  }, [user])
+
   if (session) {
     if (user != session.user) {
       setUser(session.user);
@@ -49,7 +53,7 @@ export const AuthProvider = (props) => {
         }}
       >
         <Button variant="outlined">
-          You aren't me, go away
+          You arent me, go away
         </Button>
       </Box>)}
     </AuthContext.Provider>
