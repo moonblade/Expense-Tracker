@@ -12,6 +12,20 @@ export const AuthProvider = (props) => {
     if (user != session.user) {
       setUser(session.user);
     }
+    if (session.user.name != "moonblade") {
+      return (<Box
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+      >
+        <Button variant="outlined">
+          You aren't me, go away
+        </Button>
+      </Box>)
+    }
   } else {
     if (Object.keys(user).length != 0) {
       setUser({});
