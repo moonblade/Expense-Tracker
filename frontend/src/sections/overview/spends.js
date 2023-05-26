@@ -7,6 +7,7 @@ import {
   CardContent,
   Grid,
   IconButton,
+  InputAdornment,
   List,
   ListItem,
   ListItemAvatar,
@@ -25,9 +26,11 @@ import moment from "moment";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/solid";
 import { Fragment } from "react";
 import { useLongPress } from "use-long-press";
+import SearchIcon from "@mui/icons-material/Search";
+import CloseIcon from '@mui/icons-material/Close';
 
 export const Spends = () => {
-  const { updateExpense, filteredExpenses: expenses } = useContext(ExpenseContext);
+  const { updateExpense, filteredExpenses: expenses, updateFilter, filter } = useContext(ExpenseContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedExpense, setSelectedExpense] = useState(expenses[0] || null);
@@ -35,6 +38,7 @@ export const Spends = () => {
   const open = Boolean(anchorEl);
   const [openCategoryModal, setOpenCategoryModal] = useState(false);
   const [openPayeeModal, setOpenPayeeModal] = useState(false);
+  const [searchString, setSearchString] = useState("");
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -73,13 +77,40 @@ export const Spends = () => {
   const longPress = (event) => {
     console.log(event.target);
     console.log(selectedExpense);
-  }
+  };
   const longClickBind = useLongPress(longPress);
+
+  const setSearch = (_searchString) => {
+    setSearchString(_searchString || "");
+    updateFilter({...filter, search: _searchString});
+  }
 
   return (
     <>
       <Card>
         <CardContent style={{ "padding-left": "0", "padding-right": "0" }}>
+          <TextField
+            id="search-bar"
+            style={{
+              width: "88%",
+              "margin-left": "20px",
+              "margin-right": "20px",
+            }}
+            label="Search"
+            value={searchString}
+            onChange={(e)=>setSearch(e.target.value)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+              endAdornment: (<InputAdornment onClick={()=>setSearch(undefined)} position="end">
+                  <CloseIcon />
+                </InputAdornment>)
+            }}
+            variant="standard"
+          />
           <List>
             {expenses.map((expense, key) => (
               <>
@@ -125,7 +156,8 @@ export const Spends = () => {
                                 display="block"
                                 fontSize={"0.6rem"}
                               >
-                                ({expense.account}) {moment(expense.date.$date).format("MMMM D, h:mm A")} 
+                                ({expense.account}){" "}
+                                {moment(expense.date.$date).format("MMMM D, h:mm A")}
                               </Typography>
                             </Grid>
                           </Grid>
