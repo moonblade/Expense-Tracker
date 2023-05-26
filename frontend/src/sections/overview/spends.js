@@ -70,6 +70,12 @@ export const Spends = () => {
     setOpenPayeeModal(false);
   };
 
+  const longPress = (event) => {
+    console.log(event.target);
+    console.log(selectedExpense);
+  }
+  const longClickBind = useLongPress(longPress);
+
   return (
     <>
       <Card>
