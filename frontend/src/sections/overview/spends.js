@@ -24,6 +24,7 @@ import categories from "./categories";
 import moment from "moment";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/solid";
 import { Fragment } from "react";
+import { useLongPress } from "use-long-press";
 
 export const Spends = () => {
   const { updateExpense, filteredExpenses: expenses } = useContext(ExpenseContext);
@@ -67,17 +68,25 @@ export const Spends = () => {
     selectedExpense.payee = payee;
     updateExpense(selectedExpense);
     setOpenPayeeModal(false);
-  }
+  };
 
   return (
     <>
       <Card>
-        <CardContent>
+        <CardContent style={{ "padding-left": "0", "padding-right": "0" }}>
           <List>
             {expenses.map((expense, key) => (
               <>
                 {!expense.deleted && !(expense.amount == 0) && !expense.hide && (
-                  <ListItem key={key}>
+                  <ListItem
+                    key={key}
+                    onClick={handleClick}
+                    value={key}
+                    id={"basic-button"}
+                    aria-controls={open ? "basic-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                  >
                     <ListItemAvatar>
                       {categories[expense.category] == undefined
                         ? categories["notFound"].icon
@@ -96,35 +105,27 @@ export const Spends = () => {
                       secondary={
                         <Fragment>
                           <Grid container>
-                            <Grid item xs={6}>
+                            <Grid item xs={4}>
                               <Typography component={"span"}>₹ {expense.amount}</Typography>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item xs={8}>
                               <Typography
+                                align="end"
+                                style={{
+                                  "margin-top": "3px",
+                                }}
                                 component={"span"}
                                 varient="caption"
                                 display="block"
                                 fontSize={"0.6rem"}
                               >
-                                {moment(expense.date.$date).format("MMMM D, h:mm A")}
+                                ({expense.account}) {moment(expense.date.$date).format("MMMM D, h:mm A")} 
                               </Typography>
                             </Grid>
                           </Grid>
                         </Fragment>
                       }
                     />
-                    <IconButton
-                      value={key}
-                      id={"basic-button"}
-                      aria-controls={open ? "basic-menu" : undefined}
-                      aria-haspopup="true"
-                      aria-expanded={open ? "true" : undefined}
-                      onClick={handleClick}
-                    >
-                      <SvgIcon>
-                        <EllipsisVerticalIcon />
-                      </SvgIcon>
-                    </IconButton>
                   </ListItem>
                 )}
               </>
@@ -223,7 +224,9 @@ export const Spends = () => {
               />
             </CardContent>
             <CardActions>
-              <Button size="small" onClick={updatePayee}>Ok</Button>
+              <Button size="small" onClick={updatePayee}>
+                Ok
+              </Button>
             </CardActions>
           </Card>
         </Box>
