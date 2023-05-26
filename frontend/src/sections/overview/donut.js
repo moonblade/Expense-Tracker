@@ -2,6 +2,7 @@ import { Card, CardContent } from "@mui/material";
 import { Chart } from "src/components/chart";
 import { useContext } from "react";
 import { ExpenseContext } from "src/contexts/expenses";
+import categoryInfo from "./categories";
 
 export const Donut = () => {
   const { categories, filter, updateFilter } = useContext(ExpenseContext);
@@ -27,6 +28,7 @@ export const Donut = () => {
         },
       },
       labels,
+      colors: categories.map(category => categoryInfo[category?.category]?.color),
       legend: {
         position: "bottom",
       },

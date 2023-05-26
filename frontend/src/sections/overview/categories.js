@@ -23,6 +23,7 @@ const categories = {
   groceries: {
     label: "Groceries",
     category: "groceries",
+    color: '#8CD867',
     icon: (
       <Avatar sx={{backgroundColor: '#8CD867'}}>
         <SvgIcon>
@@ -34,6 +35,7 @@ const categories = {
   unknown: {
     label: "Unknown",
     category: "unknown",
+    color: '#F98948',
     icon: (
       <Avatar sx={{backgroundColor: '#F98948'}}>
         <SvgIcon>
@@ -45,6 +47,7 @@ const categories = {
   travel: {
     label: "Travel",
     category: "travel",
+    color: '#3C4767',
     icon: (
       <Avatar sx={{backgroundColor: '#3C4767'}}>
         <SvgIcon>
@@ -56,6 +59,7 @@ const categories = {
   family: {
     label: "Family",
     category: "family",
+    color: '#266DD3',
     icon: (
       <Avatar sx={{backgroundColor: '#266DD3'}}>
         <SvgIcon>
@@ -67,6 +71,7 @@ const categories = {
   food: {
     label: "Food",
     category: "food",
+    color: '#EF2D56',
     icon: (
       <Avatar sx={{backgroundColor: '#EF2D56'}}>
         <SvgIcon>
@@ -78,6 +83,7 @@ const categories = {
   friends: {
     label: "Friends",
     category: "friends",
+    color: '#998DA0',
     icon: (
       <Avatar sx={{backgroundColor: '#998DA0'}}>
         <SvgIcon>
@@ -89,6 +95,7 @@ const categories = {
   health: {
     label: "Health",
     category: "health",
+    color: '#FFFC47',
     icon: (
       <Avatar sx={{backgroundColor: '#FFFC47'}}>
         <SvgIcon>
@@ -100,6 +107,7 @@ const categories = {
   body: {
     label: "Body",
     category: "body",
+    color: '#DB8A57',
     icon: (
       <Avatar sx={{backgroundColor: '#DB8A57'}}>
         <SvgIcon>
@@ -111,6 +119,7 @@ const categories = {
   home:{
     label: "Home",
     category: "home",
+    color: '#226F54',
     icon: (
       <Avatar sx={{backgroundColor: '#226F54'}}>
         <SvgIcon>
@@ -122,6 +131,7 @@ const categories = {
   phone:{
     label: "Phone",
     category: "phone",
+    color: '#A882DD',
     icon: (
       <Avatar sx={{backgroundColor: '#A882DD'}}>
         <SvgIcon>
@@ -133,6 +143,7 @@ const categories = {
   fuel:{
     label: "Fuel",
     category: "fuel",
+    color: '#FBB02D',
     icon: (
       <Avatar sx={{backgroundColor: '#FBB02D'}}>
         <SvgIcon>
@@ -143,6 +154,7 @@ const categories = {
   },
   notFound: {
     category: "notFound",
+    color: '#9C3848',
     icon: (
       <Avatar sx={{backgroundColor: '#9C3848'}}>
         <SvgIcon>
