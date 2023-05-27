@@ -18,6 +18,8 @@ import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
+import RedeemIcon from '@mui/icons-material/Redeem';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const categories = {
   groceries: {
@@ -148,6 +150,30 @@ const categories = {
       <Avatar sx={{backgroundColor: '#FBB02D'}}>
         <SvgIcon>
           <LocalGasStationIcon />
+        </SvgIcon>
+      </Avatar>
+    ),
+  },
+  charity:{
+    label: "Charity",
+    category: "charity",
+    color: '#5B2A86',
+    icon: (
+      <Avatar sx={{backgroundColor: '#5B2A86'}}>
+        <SvgIcon>
+          <RedeemIcon />
+        </SvgIcon>
+      </Avatar>
+    ),
+  },
+  shopping:{
+    label: "Shopping",
+    category: "shopping",
+    color: '#D8BD8A',
+    icon: (
+      <Avatar sx={{backgroundColor: '#D8BD8A'}}>
+        <SvgIcon>
+          <ShoppingCartIcon />
         </SvgIcon>
       </Avatar>
     ),
