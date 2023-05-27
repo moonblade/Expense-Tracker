@@ -139,7 +139,7 @@ export const Spends = () => {
                         <Fragment>
                           <Grid container>
                             <Grid item xs={4}>
-                              <Typography component={"span"}>₹ {expense.amount}</Typography>
+                              <Typography component={"span"}>₹ {Math.floor(expense.amount)}</Typography>
                             </Grid>
                             <Grid item xs={8}>
                               <Typography
