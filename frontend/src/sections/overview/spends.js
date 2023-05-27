@@ -27,10 +27,15 @@ import { EllipsisVerticalIcon } from "@heroicons/react/24/solid";
 import { Fragment } from "react";
 import { useLongPress } from "use-long-press";
 import SearchIcon from "@mui/icons-material/Search";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 
 export const Spends = () => {
-  const { updateExpense, filteredExpenses: expenses, updateFilter, filter } = useContext(ExpenseContext);
+  const {
+    updateExpense,
+    filteredExpenses: expenses,
+    updateFilter,
+    filter,
+  } = useContext(ExpenseContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedExpense, setSelectedExpense] = useState(expenses[0] || null);
@@ -82,8 +87,8 @@ export const Spends = () => {
 
   const setSearch = (_searchString) => {
     setSearchString(_searchString || "");
-    updateFilter({...filter, search: _searchString});
-  }
+    updateFilter({ ...filter, search: _searchString });
+  };
 
   return (
     <>
@@ -92,22 +97,28 @@ export const Spends = () => {
           <TextField
             id="search-bar"
             style={{
-              width: "88%",
+              width: "85%",
               "margin-left": "20px",
               "margin-right": "20px",
             }}
             label="Search"
             value={searchString}
-            onChange={(e)=>setSearch(e.target.value)}
+            onChange={(e) => setSearch(e.target.value)}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
                   <SearchIcon />
                 </InputAdornment>
               ),
-              endAdornment: (<InputAdornment onClick={()=>setSearch(undefined)} position="end">
-                  <CloseIcon />
-                </InputAdornment>)
+              endAdornment: (
+                <>
+                  {searchString != "" && (
+                    <InputAdornment onClick={() => setSearch(undefined)} position="end">
+                      <CloseIcon />
+                    </InputAdornment>
+                  )}
+                </>
+              ),
             }}
             variant="standard"
           />
@@ -115,15 +126,7 @@ export const Spends = () => {
             {expenses.map((expense, key) => (
               <>
                 {!expense.deleted && !(expense.amount == 0) && !expense.hide && (
-                  <ListItem
-                    key={key}
-                    onClick={handleClick}
-                    value={key}
-                    id={"basic-button"}
-                    aria-controls={open ? "basic-menu" : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? "true" : undefined}
-                  >
+                  <ListItem key={key}>
                     <ListItemAvatar>
                       {categories[expense.category] == undefined
                         ? categories["notFound"].icon
@@ -164,6 +167,18 @@ export const Spends = () => {
                         </Fragment>
                       }
                     />
+                    <IconButton
+                      value={key}
+                      id={"basic-button"}
+                      aria-controls={open ? "basic-menu" : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={open ? "true" : undefined}
+                      onClick={handleClick}
+                    >
+                      <SvgIcon>
+                        <EllipsisVerticalIcon />
+                      </SvgIcon>
+                    </IconButton>
                   </ListItem>
                 )}
               </>
