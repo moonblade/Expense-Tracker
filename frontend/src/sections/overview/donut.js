@@ -34,6 +34,9 @@ export const Donut = () => {
       },
       plotOptions: {
         pie: {
+          donut: {
+            size: "50%"
+          }
           // expandOnClick: false
         },
       },

@@ -25,7 +25,6 @@ import categories from "./categories";
 import moment from "moment";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/solid";
 import { Fragment } from "react";
-import { useLongPress } from "use-long-press";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -78,12 +77,6 @@ export const Spends = () => {
     updateExpense(selectedExpense);
     setOpenPayeeModal(false);
   };
-
-  const longPress = (event) => {
-    console.log(event.target);
-    console.log(selectedExpense);
-  };
-  const longClickBind = useLongPress(longPress);
 
   const setSearch = (_searchString) => {
     setSearchString(_searchString || "");
@@ -175,7 +168,7 @@ export const Spends = () => {
                       aria-expanded={open ? "true" : undefined}
                       onClick={handleClick}
                     >
-                      <SvgIcon>
+                      <SvgIcon value={key}>
                         <EllipsisVerticalIcon />
                       </SvgIcon>
                     </IconButton>
