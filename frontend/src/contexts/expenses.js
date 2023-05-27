@@ -45,7 +45,7 @@ export const ExpenseProvider = (props) => {
       if (filter.category && filter.category != expense.category) {
         return
       }
-      if (filter.search && !(expense.payee.includes(filter.search) || expense.account.includes(filter.search))) {
+      if (filter.search && !(expense.payee.toLowerCase().includes(filter.search.toLowerCase()) || expense.account.toLowerCase().includes(filter.search.toLowerCase()))) {
         return;
       }
       filteredExpenses.push(expense);
