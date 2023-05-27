@@ -1,4 +1,4 @@
-from bottle import app, auth_basic, get, run, response, request, post
+from bottle import app, auth_basic, get, run, response, request, post, put, delete
 from mongoengine import connect
 from expenseModel import Expense
 from utils import Config
@@ -6,6 +6,7 @@ from dateutil import parser
 from datetime import datetime
 from bottle_cors_plugin import cors_plugin
 import json
+import uuid
 
 dbConfig = Config("db")
 serverConfig = Config("server")
@@ -35,6 +36,32 @@ def getExpenses():
     expenses = Expense.objects(date__lte=toTime, date__gte=fromTime).order_by("-date")
     response.set_header('Content-Type', 'application/json')
     return expenses.to_json()
+
+@put('/expense')
+@auth_basic(is_authenticated)
+def createExpense():
+    body = json.load(request.body)
+    body["transactionId"] = str(uuid.uuid4())
+    try:
+        expense = Expense(**body)
+    except Exception as e:
+        response.status = 400
+        return str(e)
+    expense.save()
+    response.status = 200
+    return expense.to_json()
+
+@delete('/expense/<transactionId>')
+@auth_basic(is_authenticated)
+def deleteExpense(transactionId):
+    expenses = Expense.objects(transactionId=transactionId)
+    if len(expenses) > 0:
+        body = {"deleted": True}
+        expenses[0].update(**body)
+        response.status = 200
+    else:
+        response.status = 400
+    return None
 
 @post('/expense/<transactionId>')
 @auth_basic(is_authenticated)
