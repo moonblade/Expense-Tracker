@@ -1,5 +1,6 @@
 from bottle import app, auth_basic, get, run, response, request, post, put, delete
 from mongoengine import connect
+from job import job
 from expenseModel import Expense
 from utils import Config
 from dateutil import parser
@@ -79,6 +80,12 @@ def updateExpense(transactionId):
         response.status = 200
     else:
         response.status = 400
+    return None
+
+@post('/refresh')
+@auth_basic(is_authenticated)
+def refresh():
+    job()
     return None
 
 initDb()
