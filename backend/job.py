@@ -9,7 +9,7 @@ config = Config("db")
 def initDb():
     connect(config.get("database"), host=config.get("host"), port=config.get("port"))
 
-if __name__ == "__main__":
+def job():
     initDb()
     tracker = Tracker()
     data = tracker.getData()
@@ -28,3 +28,6 @@ if __name__ == "__main__":
             except Exception as e:
                 print(str(e))
                 pass
+
+if __name__ == "__main__":
+    job()
