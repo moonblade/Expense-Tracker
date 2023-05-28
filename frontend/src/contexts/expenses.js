@@ -132,6 +132,14 @@ export const ExpenseProvider = (props) => {
       });
   };
 
+  const refresh = async () => {
+    return api.post("/refresh").then((response) => {
+      if (response.status == 200) {
+        getExpenses(state.fromTime, state.toTime);
+      }
+    });
+  };
+
   return (
     <ExpenseContext.Provider
       value={{
@@ -140,6 +148,7 @@ export const ExpenseProvider = (props) => {
         updateExpense,
         updateFilter,
         addExpense,
+        refresh,
       }}
     >
       {children}

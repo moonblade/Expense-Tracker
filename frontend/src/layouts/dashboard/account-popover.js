@@ -3,11 +3,13 @@ import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
 import { Box, Divider, MenuItem, MenuList, Popover, Typography } from '@mui/material';
 import { AuthContext } from 'src/contexts/auth';
+import { ExpenseContext } from 'src/contexts/expenses';
 
 export const AccountPopover = (props) => {
   const { anchorEl, onClose, open } = props;
   const router = useRouter();
   const { signOut, user } = useContext(AuthContext);
+  const { refresh } = useContext(ExpenseContext);
 
   const handleSignOut = useCallback(
     () => {
@@ -56,6 +58,9 @@ export const AccountPopover = (props) => {
           }
         }}
       >
+        <MenuItem onClick={refresh}>
+          Refresh
+        </MenuItem>
         <MenuItem onClick={handleSignOut}>
           Sign out
         </MenuItem>
