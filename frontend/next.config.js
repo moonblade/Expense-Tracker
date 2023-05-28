@@ -9,8 +9,6 @@ if (isGithubActions) {
 
   // assetPrefix = `/${repo}/`
   // basePath = `/${repo}`
-  process.env.NEXTAUTH_URL = "https://expense.moonblade.work/"
-  process.env.NEXT_PUBLIC_NEXTAUTH_URL = "https://expense.moonblade.work/"
 }
 
 module.exports = {

@@ -5,6 +5,7 @@ import { TimeframeSelector } from "src/sections/overview/timeframe-selector";
 import { Total } from "src/sections/overview/total";
 import { Donut } from "src/sections/overview/donut";
 import { Spends } from "src/sections/overview/spends";
+import { AddExpense } from "src/sections/overview/addexpense";
 
 const Page = () => (
   <>
@@ -33,6 +34,7 @@ const Page = () => (
             <Spends />
           </Grid>
         </Grid>
+        <AddExpense/>
       </Container>
     </Box>
   </>
