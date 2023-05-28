@@ -26,8 +26,7 @@ export const ExpenseProvider = (props) => {
     let categories = {};
     expenses.forEach((expense) => {
       const category = expense.category;
-      if (expense.enabled == false || expense.deleted || expense.amount == 0)
-        return;
+      if (expense.enabled == false || expense.deleted || expense.amount == 0) return;
       if (!categories[category]) {
         categories[category] = { total: 0, expenses: [], category: expense.category };
       }
@@ -41,17 +40,23 @@ export const ExpenseProvider = (props) => {
 
   const getFiltered = (expenses, filter) => {
     let filteredExpenses = [];
-    expenses.forEach(expense => {
+    expenses.forEach((expense) => {
       if (filter.category && filter.category != expense.category) {
-        return
+        return;
       }
-      if (filter.search && !(expense.payee.toLowerCase().includes(filter.search.toLowerCase()) || expense.account.toLowerCase().includes(filter.search.toLowerCase()))) {
+      if (
+        filter.search &&
+        !(
+          expense.payee.toLowerCase().includes(filter.search.toLowerCase()) ||
+          expense.account.toLowerCase().includes(filter.search.toLowerCase())
+        )
+      ) {
         return;
       }
       filteredExpenses.push(expense);
-    })
+    });
     return filteredExpenses;
-  }
+  };
 
   const getExpenses = async (fromTime = null, toTime = null) => {
     return api
@@ -101,8 +106,7 @@ export const ExpenseProvider = (props) => {
     return api
       .post("/expense/" + expense.transactionId, expense)
       .then((response) => {
-        if (response.status == 200)
-          getExpenses(state.fromTime, state.toTime);
+        if (response.status == 200) getExpenses(state.fromTime, state.toTime);
       })
       .catch((err) => {
         console.error(err);
@@ -111,11 +115,22 @@ export const ExpenseProvider = (props) => {
 
   const updateFilter = async (filter) => {
     setState({
-      ...state, 
+      ...state,
       filter,
-      filteredExpenses: getFiltered(state.expenses, filter)
+      filteredExpenses: getFiltered(state.expenses, filter),
     });
-  }
+  };
+
+  const addExpense = async (expense) => {
+    return api
+      .put("/expense", expense)
+      .then((response) => {
+        if (response.status == 200) getExpenses(state.fromTime, state.toTime);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   return (
     <ExpenseContext.Provider
@@ -123,7 +138,8 @@ export const ExpenseProvider = (props) => {
         ...state,
         getExpenses,
         updateExpense,
-        updateFilter
+        updateFilter,
+        addExpense,
       }}
     >
       {children}
