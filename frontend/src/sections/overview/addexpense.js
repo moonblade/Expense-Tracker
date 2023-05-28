@@ -53,7 +53,7 @@ export const AddExpense = () => {
                 variant="outlined"
                 value={newExpense.payee}
                 onChange={(event) => {
-                  setNewExpense({ ...newExpense, payee: event.target.value });
+                  setNewExpense({ ...newExpense, payee: event.target.value.toLowerCase() });
                 }}
               />
               <TextField
@@ -71,7 +71,7 @@ export const AddExpense = () => {
                 variant="outlined"
                 value={newExpense.account}
                 onChange={(event) => {
-                  setNewExpense({ ...newExpense, account: event.target.value });
+                  setNewExpense({ ...newExpense, account: event.target.value.toLowerCase() });
                 }}
               />
             </CardContent>
