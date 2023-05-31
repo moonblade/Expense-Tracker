@@ -20,7 +20,7 @@ export const TimeframeSelector = () => {
       key: "previousmonth",
       value: {
         fromTime: moment().startOf("month").subtract(1, "months").format("YYYY-MM-DD"),
-        toTime: moment().endOf("month").subtract(1, "months").format("YYYY-MM-DD"),
+        toTime: moment().startOf("month").format("YYYY-MM-DD"),
       },
     },
     thisyear: {
