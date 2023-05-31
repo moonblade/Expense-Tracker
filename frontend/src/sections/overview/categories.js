@@ -20,6 +20,7 @@ import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
 import RedeemIcon from '@mui/icons-material/Redeem';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import SavingsIcon from '@mui/icons-material/Savings';
 
 const categories = {
   groceries: {
@@ -174,6 +175,18 @@ const categories = {
       <Avatar sx={{backgroundColor: '#D8BD8A'}}>
         <SvgIcon>
           <ShoppingCartIcon />
+        </SvgIcon>
+      </Avatar>
+    ),
+  },
+  investment:{
+    label: "Investment",
+    category: "investment",
+    color: '#68C3D4',
+    icon: (
+      <Avatar sx={{backgroundColor: '#68C3D4'}}>
+        <SvgIcon>
+          <SavingsIcon />
         </SvgIcon>
       </Avatar>
     ),
