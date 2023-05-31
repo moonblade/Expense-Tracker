@@ -8,7 +8,7 @@ const initialState = {
   expenses: [],
   total: 0,
   fromTime: moment().startOf("month").format("YYYY-MM-DD"),
-  toTime: moment().endOf("month").format("YYYY-MM-DD"),
+  toTime: moment().startOf("month").add(1, "months").format("YYYY-MM-DD"),
   filter: {},
   filteredExpenses: [],
 };
