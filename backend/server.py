@@ -8,6 +8,7 @@ from datetime import datetime
 from bottle_cors_plugin import cors_plugin
 import json
 import uuid
+import os
 
 dbConfig = Config("db")
 serverConfig = Config("server")
@@ -85,7 +86,8 @@ def updateExpense(transactionId):
 @post('/refresh')
 @auth_basic(is_authenticated)
 def refresh():
-    job()
+    os.system("make run")
+    # job()
     return None
 
 initDb()
