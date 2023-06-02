@@ -2,6 +2,7 @@ from utils import getSecret, Config
 from mail import Mail
 import re
 from bs4 import BeautifulSoup
+import traceback
 import pprint
 from datetime import datetime
 
@@ -109,6 +110,7 @@ class Tracker():
                                 content = self.addCategories(content)
                                 data.append(content)
                     except Exception as e:
+                        traceback.print_exc()
                         #raise e
                         print(str(e))
         return data
