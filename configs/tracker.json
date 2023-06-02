@@ -94,6 +94,20 @@
         }
       ]
     }, {
+      "sender": "alert@icicibank.com",
+      "senderTemplates": [
+        {
+          "subjectRegex": "Transaction alert for your ICICI Bank debit card",
+          "groups": [],
+          "contentTemplates": [{
+            "type": "regexInText",
+            "regex": "A purchase of INR (.*) has been made using your Debit Card linked to (.*) on (.*). Info: (.*).",
+            "comment": "Keep date as transactionId",
+            "groups": ["amount", "account", "transactionId", "payee"]
+          }]
+        }
+      ]
+    }, {
       "sender": "customercare@icicibank.com",
       "senderTemplates": [{
         "subjectRegex":  "Transaction alert for your ICICI Bank Internet Banking",
