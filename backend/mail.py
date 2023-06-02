@@ -64,7 +64,7 @@ class Mail(metaclass=SingletonMeta):
                             pass
                             # print("Could not load multipart content")
                 else:
-                    if message.get_content_type() == "text/html":
+                    if message.get_content_type() == "text/html" or message.get_content_type() == "text/plain":
                         messageBody = message.get_payload(decode=True).decode() 
                         return message, messageBody
                 return message, None
