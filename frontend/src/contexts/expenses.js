@@ -121,6 +121,17 @@ export const ExpenseProvider = (props) => {
     });
   };
 
+  const deleteExpense = async (expense) => {
+    return api
+      .delete("/expense/" + expense.transactionId)
+      .then((response) => {
+        if (response.status == 200) getExpenses(state.fromTime, state.toTime);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   const addExpense = async (expense) => {
     return api
       .put("/expense", expense)
@@ -148,6 +159,7 @@ export const ExpenseProvider = (props) => {
         updateExpense,
         updateFilter,
         addExpense,
+        deleteExpense,
         refresh,
       }}
     >

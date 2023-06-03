@@ -34,6 +34,7 @@ export const Spends = () => {
     filteredExpenses: expenses,
     updateFilter,
     filter,
+    deleteExpense,
   } = useContext(ExpenseContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -76,6 +77,10 @@ export const Spends = () => {
     selectedExpense.payee = payee;
     updateExpense(selectedExpense);
     setOpenPayeeModal(false);
+  };
+
+  const deleteExp = () => {
+    deleteExpense(selectedExpense);
   };
 
   const setSearch = (_searchString) => {
@@ -205,6 +210,14 @@ export const Spends = () => {
           }}
         >
           Modify payee
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            deleteExp();
+            handleClose();
+          }}
+        >
+          Delete
         </MenuItem>
       </Menu>
       <Modal
