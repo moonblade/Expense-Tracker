@@ -149,6 +149,21 @@
           "text": "revolut"
         }]
       }]
+    }, {
+      "sender": "alerts@hdfcbank.net",
+      "senderTemplates": [{
+        "subjectRegex": "Alert : Update on your HDFC Bank Credit Card",
+        "groups": [],
+        "contentTemplates": [{
+          "type": "regexInText",
+          "regex": "Thank you for using your HDFC Bank Credit Card ending 3814 for Rs (.*) at (.*) on (.*)",
+          "groups": ["amount", "payee", "transactionId"]
+        }, {
+          "type": "static",
+          "key": "account",
+          "text": "hdfc credit"
+        }]
+      }]
     }
   ]
 
