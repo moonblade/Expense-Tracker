@@ -3,6 +3,7 @@ from mail import Mail
 import re
 from bs4 import BeautifulSoup
 import traceback
+from expenseModel import Expense
 import pprint
 from datetime import datetime
 
@@ -25,6 +26,10 @@ class Tracker():
                         content["category"] = categoryTemplate["category"]
 
         newContent = content.copy()
+        existingExpense = Expense.objects(payee=content["payee"], deleted=False).order_by('-lastUpdated').first()
+        if existingExpense:
+            newContent["category"] = existingExpense["category"]
+            return newContent
         for key in content:
             for categoryTemplate in self.categoryConfig:
                 if key == categoryTemplate["key"]:
