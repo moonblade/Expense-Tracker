@@ -21,6 +21,7 @@ import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
 import RedeemIcon from '@mui/icons-material/Redeem';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import SavingsIcon from '@mui/icons-material/Savings';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 
 const categories = {
   groceries: {
@@ -187,6 +188,18 @@ const categories = {
       <Avatar sx={{backgroundColor: '#68C3D4'}}>
         <SvgIcon>
           <SavingsIcon />
+        </SvgIcon>
+      </Avatar>
+    ),
+  },
+  groceries: {
+    label: "Entertainment",
+    category: "entertainment",
+    color: '#48639C',
+    icon: (
+      <Avatar sx={{backgroundColor: '#48639C'}}>
+        <SvgIcon>
+          <SportsEsportsIcon />
         </SvgIcon>
       </Avatar>
     ),
