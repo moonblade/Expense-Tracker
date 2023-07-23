@@ -192,7 +192,7 @@ const categories = {
       </Avatar>
     ),
   },
-  groceries: {
+  entertainment: {
     label: "Entertainment",
     category: "entertainment",
     color: '#48639C',
