@@ -12,6 +12,7 @@ class Expense(DynamicDocument):
     bankRefNo = StringField(default='unknown')
     category = StringField(default='unknown')
     message = StringField(default='unknown')
+    reason = StringField(default='')
     deleted = BooleanField(default=False)
     date = DateTimeField(default=getDate)
     transactionId = StringField(unique=True, default='')
