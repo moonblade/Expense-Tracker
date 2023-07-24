@@ -39,16 +39,16 @@ export const Spends = () => {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedExpense, setSelectedExpense] = useState(expenses[0] || null);
-  const [payee, setPayee] = useState("");
+  const [currentField, setCurrentField] = useState("");
+  const [updateValue, setUpdateValue] = useState("");
   const open = Boolean(anchorEl);
   const [openCategoryModal, setOpenCategoryModal] = useState(false);
-  const [openPayeeModal, setOpenPayeeModal] = useState(false);
+  const [openUpdateFieldModal, setOpenUpdateFieldModal] = useState(false);
   const [searchString, setSearchString] = useState("");
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
     setSelectedExpense(expenses[event.currentTarget.value]);
-    setPayee(expenses[event.currentTarget.value].payee);
   };
 
   const handleClose = () => {
@@ -73,12 +73,18 @@ export const Spends = () => {
     setOpenCategoryModal(false);
   };
 
-  const updatePayee = () => {
-    selectedExpense.payee = payee;
-    updateExpense(selectedExpense);
-    setOpenPayeeModal(false);
-  };
+  const openUpdateFieldModalWrapper = (field) => {
+    setUpdateValue(selectedExpense[field] || "")
+    setCurrentField(field);
+    setOpenUpdateFieldModal(true);
+  }
 
+  const updateField = () => {
+    selectedExpense[currentField] = updateValue;
+    updateExpense(selectedExpense);
+    setOpenUpdateFieldModal(false);
+  }
+  
   const deleteExp = () => {
     deleteExpense(selectedExpense);
   };
@@ -137,7 +143,7 @@ export const Spends = () => {
                             "text-decoration": expense.enabled == false ? "line-through" : "",
                           }}
                         >
-                          {expense.payee}
+                          {expense.reason || expense.payee}
                         </Typography>
                       }
                       secondary={
@@ -205,11 +211,19 @@ export const Spends = () => {
         </MenuItem>
         <MenuItem
           onClick={() => {
-            setOpenPayeeModal(true);
+            openUpdateFieldModalWrapper('payee');
             handleClose();
           }}
         >
           Modify payee
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            openUpdateFieldModalWrapper('reason');
+            handleClose();
+          }}
+        >
+          Modify reason
         </MenuItem>
         <MenuItem
           onClick={() => {
@@ -257,8 +271,8 @@ export const Spends = () => {
       </Modal>
       <Modal
         keepMounted
-        open={openPayeeModal}
-        onClose={() => setOpenPayeeModal(false)}
+        open={openUpdateFieldModal}
+        onClose={() => setOpenUpdateFieldModal(false)}
         aria-labelledby="keep-mounted-modal-payee-title"
         aria-describedby="keep-mounted-modal-payee-description"
       >
@@ -273,17 +287,17 @@ export const Spends = () => {
           <Card>
             <CardContent>
               <TextField
-                id="payee-id"
-                label="Paye"
+                id="field-id"
+                label={currentField}
                 variant="outlined"
-                value={payee}
+                value={updateValue}
                 onChange={(event) => {
-                  setPayee(event.target.value);
+                  setUpdateValue(event.target.value);
                 }}
               />
             </CardContent>
             <CardActions>
-              <Button size="small" onClick={updatePayee}>
+              <Button size="small" onClick={updateField}>
                 Ok
               </Button>
             </CardActions>
