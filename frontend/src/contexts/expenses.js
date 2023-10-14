@@ -10,6 +10,7 @@ const initialState = {
   fromTime: moment().startOf("month").format("YYYY-MM-DD"),
   toTime: moment().startOf("month").add(1, "months").format("YYYY-MM-DD"),
   filter: {},
+  showOutlierCategory: false,
   filteredExpenses: [],
 };
 
@@ -21,6 +22,19 @@ export const ExpenseProvider = (props) => {
   const { children } = props;
   const [state, setState] = useState(initialState);
   const initialized = useRef(false);
+
+  const filterOutlier = (categories) => {
+    if (state.showOutlierCategory) {
+      return categories;
+    }
+    if (categories.length < 2) {
+      return categories
+    }
+    if (categories[0].total > categories[1].total * 2) {
+      return categories.slice(1)
+    }
+    return categories
+  }
 
   const getCategorized = (expenses) => {
     let categories = {};
@@ -35,7 +49,7 @@ export const ExpenseProvider = (props) => {
     });
     categories = Object.values(categories);
     categories.sort((a, b) => b.total - a.total);
-    return categories;
+    return filterOutlier(categories);
   };
 
   const getFiltered = (expenses, filter) => {
