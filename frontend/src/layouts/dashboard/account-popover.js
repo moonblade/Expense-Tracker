@@ -9,8 +9,12 @@ export const AccountPopover = (props) => {
   const { anchorEl, onClose, open } = props;
   const router = useRouter();
   const { signOut, user } = useContext(AuthContext);
-  const { refresh } = useContext(ExpenseContext);
+  const { refresh, toggleOutlier } = useContext(ExpenseContext);
 
+  const _toggleOutlier = () => {
+    toggleOutlier();
+    onClose?.();
+  }
   const handleSignOut = useCallback(
     () => {
       onClose?.();
@@ -58,6 +62,9 @@ export const AccountPopover = (props) => {
           }
         }}
       >
+        <MenuItem onClick={_toggleOutlier}>
+          Toggle Outlier
+        </MenuItem>
         <MenuItem onClick={refresh}>
           Refresh
         </MenuItem>
