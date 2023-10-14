@@ -20,7 +20,10 @@ export const ExpenseContext = createContext({ undefined });
 
 export const ExpenseProvider = (props) => {
   const { children } = props;
-  const [state, setState] = useState(initialState);
+  const [state, setState] = useState({
+    ...initialState, 
+    'showOutlierCategory': localStorage.getItem('showOutlierCategory', "false") == "true"
+  });
   const initialized = useRef(false);
 
   const filterOutlier = (categories) => {
@@ -141,6 +144,7 @@ export const ExpenseProvider = (props) => {
   };
 
   const toggleOutlier = () => {
+    localStorage.setItem('showOutlierCategory', !state.showOutlierCategory)
     setState({
       ...state,
       showOutlierCategory: !state.showOutlierCategory
