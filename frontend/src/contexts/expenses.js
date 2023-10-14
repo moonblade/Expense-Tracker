@@ -30,7 +30,8 @@ export const ExpenseProvider = (props) => {
     if (categories.length < 2) {
       return categories
     }
-    if (categories[0].total > categories[1].total * 2) {
+    const total = categories.reduce((sum, cur) => sum + cur.total, 0);
+    if (categories[0].total > (total - categories[0].total) * 4) {
       return categories.slice(1)
     }
     return categories
@@ -116,6 +117,10 @@ export const ExpenseProvider = (props) => {
     []
   );
 
+  useEffect(()=> {
+    getExpenses()
+  }, [state.showOutlierCategory]);
+
   const updateExpense = async (expense) => {
     return api
       .post("/expense/" + expense.transactionId, expense)
@@ -134,6 +139,13 @@ export const ExpenseProvider = (props) => {
       filteredExpenses: getFiltered(state.expenses, filter),
     });
   };
+
+  const toggleOutlier = () => {
+    setState({
+      ...state,
+      showOutlierCategory: !state.showOutlierCategory
+    });
+  }
 
   const deleteExpense = async (expense) => {
     return api
@@ -174,6 +186,7 @@ export const ExpenseProvider = (props) => {
         updateFilter,
         addExpense,
         deleteExpense,
+        toggleOutlier,
         refresh,
       }}
     >
