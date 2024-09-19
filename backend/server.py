@@ -90,6 +90,11 @@ def refresh():
     # job()
     return None
 
+@get('/status')
+def status():
+    return str(datetime.now().isoformat())
+
+
 initDb()
 app = app()
 app.install(cors_plugin('*'))
