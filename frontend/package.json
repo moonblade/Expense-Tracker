@@ -26,6 +26,7 @@
     "@mui/x-date-pickers": "5.0.19",
     "apexcharts": "3.37.0",
     "axios": "^1.4.0",
+    "crypto-js": "^4.2.0",
     "date-fns": "2.29.3",
     "formik": "2.2.9",
     "moment": "^2.29.4",
